@@ -1,5 +1,7 @@
 <?php
 include "../load.php";
+
+echo $_POST['dateadd'];
 /*echo  "fecha ".$_POST['fechaadd']."<br>"; 
 echo"profesor ". $_POST['profesoradd']."<br>"; 
 echo "asignatura ".$_POST['asignaturaadd']."<br>"; 
@@ -11,7 +13,7 @@ echo "institucion  ".$_POST['institucionadd']."<br>";
 echo "grupo ".$_POST['grupoadd']."<br>"; 
 echo "observaciones ".$_POST['observacionesadd']."<br>"; 
 echo "evidencia ". $_FILES['evidenceadd']['tmp_name']."<br>"; */
-if (isset($_POST['fechaadd']) && isset($_POST['profesoradd']) && isset($_POST['asignaturaadd']) && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd'])) {
+/*if (isset($_POST['fechaadd']) && isset($_POST['profesoradd']) && isset($_POST['asignaturaadd']) && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd'])) {
     $carpeta = "../../uploads/evidences/";
     $nombre = $_FILES['evidenceadd']['name'];
 
@@ -40,3 +42,4 @@ if (isset($_POST['fechaadd']) && isset($_POST['profesoradd']) && isset($_POST['a
     $session->msg('d', "Favor de llenar todos los campos. ");
     redirect('../../pages/add', false);
 }
+*/

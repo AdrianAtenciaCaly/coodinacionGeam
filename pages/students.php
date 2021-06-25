@@ -230,7 +230,7 @@ $groupAdd = findAllgroup();
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="institucion"> Grupo </label>
-                                                <input type="text" id="grupoedit" name="grupoedit" class="form-control" disabled>
+                                                <input type="text" id="grupoeditver" name="grupoeditver" class="form-control" disabled>
                                             </div>
                                         </div>
 
@@ -330,7 +330,7 @@ $groupAdd = findAllgroup();
             var idEditGroup = $(this).data('id');
             $("#identificacionedit").val(identificacion);
             $("#nombresedit").val(nombres);
-            $("#grupoedit").val(grupo);
+            $("#grupoeditver").val(grupo);
             $("#id_studentedit").val(idEdit);
             $("#id_studentgroup").val(idEditGroup);
         });

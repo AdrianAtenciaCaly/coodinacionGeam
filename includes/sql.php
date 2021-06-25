@@ -401,7 +401,7 @@ function getLastUpadateInitialBalance($table)
 function findAllTeachers()
 {
   global $db;
-  $sql  = " SELECT * FROM teacher ORDER BY  id_teacher DESC";
+  $sql  = " SELECT t.id_teacher, t.names_teacher, t.surnames_teacher , t.fullname_teacher , t.observations_teacher , s.name_subject FROM teacher  t INNER JOIN subject s  ON s.id_subject = t.subject_teacher  ORDER BY  id_teacher DESC";
   return find_by_sql($sql);
 }
 
@@ -420,8 +420,7 @@ function findAllgroup()
   return find_by_sql($sql);
 }
 
-function findAllasistance()
-{
+function findAllasistance(){
   global $db;
   $sql  = " SELECT a.id_assistance, 
   a.date, 

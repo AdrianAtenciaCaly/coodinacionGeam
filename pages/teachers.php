@@ -3,6 +3,7 @@ if (!$session->isUserLoggedIn(true)) {
   redirect('index.php', false);
 }
 $teachers = findAllTeachers();
+$subject = findAllsubject();
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ $teachers = findAllTeachers();
   <title>Docentes | GEAM</title>
   <link rel="icon" href="../assets/dist/img/favicon.ico">
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -33,10 +34,18 @@ $teachers = findAllTeachers();
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
+
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
@@ -85,14 +94,14 @@ $teachers = findAllTeachers();
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="nombres">Nombres</label>
-                        <input type="text" id="nombredocente" name="nombredocente" oninput="actualizarnombreCompleto()" class="form-control">
+                        <input type="text" id="nombredocente" name="nombredocente" oninput="actualizarnombreCompleto()" class="form-control" required>
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidodocente" name="apellidodocente" oninput="actualizarnombreCompleto()" class="form-control">
+                        <input type="text" id="apellidodocente" name="apellidodocente" oninput="actualizarnombreCompleto()" class="form-control" required>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -105,12 +114,12 @@ $teachers = findAllTeachers();
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="asiganature">Asiganatura impartida</label>
-                      <select id="asiganaturedocente" name="asiganaturedocente" class="form-control custom-select">
-                      <option value="" selected disabled hidden>Choose here</option>
-                        <option>Profesor</option>
-                        <option>Profesor</option>
-                        <option>Profesor</option>
-                      </select>
+                      <select id="asignaturedocente" name="asignaturedocente" class="form-control select2" required>
+                        <option value="" selected disabled hidden>Choose here</option>
+                          <?php foreach ($subject as $subject) : ?>
+                            <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
+                          <?php endforeach; ?>
+                        </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -151,7 +160,7 @@ $teachers = findAllTeachers();
                         <td class="text-center"><?php echo countId(); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['names_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['surnames_teacher']); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($teachers['subject_teacher']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($teachers['name_subject']); ?></td>
                         <td class="text-center"> Opciones </td>
                       </tr>
                     <?php endforeach; ?>
@@ -182,7 +191,16 @@ $teachers = findAllTeachers();
 
     <?php include('../layout/footer.php'); ?>
 </body>
-
+<script>
+  $(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
 <script>
   function fileValidation(nombre) {
     var fileInput = document.getElementById('evidenceFile');

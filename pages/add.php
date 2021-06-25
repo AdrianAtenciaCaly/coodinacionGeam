@@ -17,6 +17,7 @@ $asistance = findAllasistance();
   <title>Registrar asistencia | GEAM</title>
   <link rel="icon" href="../assets/dist/img/favicon.ico">
   <!-- Google Font: Source Sans Pro -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
@@ -85,63 +86,227 @@ $asistance = findAllasistance();
               </div>
               <div class="card-body">
                 <form action="../includes/sentences/register_asistence.php" method="POST" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" id="fechaadd" name="fechaadd" class="form-control" required>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fechaadd" name="fechaadd" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="horainicio">Hora de inicio</label>
+                        <select id="horainicioadd" name="horainicioadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <option value="07:00">07 : 00 a.m.</option>
+                          <option value="07:15">07 : 15 a.m.</option>
+                          <option value="07:30">07 : 30 a.m.</option>
+                          <option value="07:45">07 : 45 a.m.</option>
+                          <option value="08:00">08 : 00 a.m.</option>
+                          <option value="08:15">08 : 15 a.m.</option>
+                          <option value="08:30">08 : 30 a.m.</option>
+                          <option value="08:45">08 : 45 a.m.</option>
+                          <option value="09:00">09 : 00 a.m.</option>
+                          <option value="09:15">09 : 15 a.m.</option>
+                          <option value="09:30">09 : 30 a.m.</option>
+                          <option value="09:45">09 : 45 a.m.</option>
+                          <option value="10:00">10 : 00 a.m.</option>
+                          <option value="10:15">10 : 15 a.m.</option>
+                          <option value="10:30">10 : 30 a.m.</option>
+                          <option value="10:45">10 : 45 a.m.</option>
+                          <option value="11:00">11 : 00 a.m.</option>
+                          <option value="11:15">11 : 15 a.m.</option>
+                          <option value="11:30">11 : 30 a.m.</option>
+                          <option value="11:45">11 : 45 a.m.</option>
+                          <option value="12:00">12 : 00 p.m.</option>
+                          <option value="12:15">12 : 15 p.m.</option>
+                          <option value="12:30">12 : 30 p.m.</option>
+                          <option value="12:45">12 : 45 p.m.</option>
+                          <option value="13:00">01 : 00 p.m.</option>
+                          <option value="13:15">01 : 15 p.m.</option>
+                          <option value="13:30">01 : 30 p.m.</option>
+                          <option value="13:45">01 : 45 p.m.</option>
+                          <option value="14:00">02 : 00 p.m.</option>
+                          <option value="14:15">02 : 15 p.m.</option>
+                          <option value="14:30">02 : 30 p.m.</option>
+                          <option value="14:45">02 : 45 p.m.</option>
+                          <option value="15:00">03 : 00 p.m.</option>
+                          <option value="15:15">03 : 15 p.m.</option>
+                          <option value="15:30">03 : 30 p.m.</option>
+                          <option value="15:45">03 : 45 p.m.</option>
+                          <option value="16:00">04 : 00 p.m.</option>
+                          <option value="16:15">04 : 15 p.m.</option>
+                          <option value="16:30">04 : 30 p.m.</option>
+                          <option value="16:45">04 : 45 p.m.</option>
+                          <option value="17:00">05 : 00 p.m.</option>
+                          <option value="17:15">05 : 15 p.m.</option>
+                          <option value="17:30">05 : 30 p.m.</option>
+                          <option value="17:45">05 : 45 p.m.</option>
+                          <option value="18:00">06 : 00 p.m.</option>
+                          <option value="18:15">06 : 15 p.m.</option>
+                          <option value="18:30">06 : 30 p.m.</option>
+                          <option value="18:45">06 : 45 p.m.</option>
+                          <option value="19:00">07 : 00 p.m.</option>
+                          <option value="19:15">07 : 15 p.m.</option>
+                          <option value="19:30">07 : 30 p.m.</option>
+                          <option value="19:45">07 : 45 p.m.</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="horafinal">Hora de final</label>
+                        <select id="horafinaladd" name="horafinaladd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <option value="07:00">07 : 00 a.m.</option>
+                          <option value="07:15">07 : 15 a.m.</option>
+                          <option value="07:30">07 : 30 a.m.</option>
+                          <option value="07:45">07 : 45 a.m.</option>
+                          <option value="08:00">08 : 00 a.m.</option>
+                          <option value="08:15">08 : 15 a.m.</option>
+                          <option value="08:30">08 : 30 a.m.</option>
+                          <option value="08:45">08 : 45 a.m.</option>
+                          <option value="09:00">09 : 00 a.m.</option>
+                          <option value="09:15">09 : 15 a.m.</option>
+                          <option value="09:30">09 : 30 a.m.</option>
+                          <option value="09:45">09 : 45 a.m.</option>
+                          <option value="10:00">10 : 00 a.m.</option>
+                          <option value="10:15">10 : 15 a.m.</option>
+                          <option value="10:30">10 : 30 a.m.</option>
+                          <option value="10:45">10 : 45 a.m.</option>
+                          <option value="11:00">11 : 00 a.m.</option>
+                          <option value="11:15">11 : 15 a.m.</option>
+                          <option value="11:30">11 : 30 a.m.</option>
+                          <option value="11:45">11 : 45 a.m.</option>
+                          <option value="12:00">12 : 00 p.m.</option>
+                          <option value="12:15">12 : 15 p.m.</option>
+                          <option value="12:30">12 : 30 p.m.</option>
+                          <option value="12:45">12 : 45 p.m.</option>
+                          <option value="13:00">01 : 00 p.m.</option>
+                          <option value="13:15">01 : 15 p.m.</option>
+                          <option value="13:30">01 : 30 p.m.</option>
+                          <option value="13:45">01 : 45 p.m.</option>
+                          <option value="14:00">02 : 00 p.m.</option>
+                          <option value="14:15">02 : 15 p.m.</option>
+                          <option value="14:30">02 : 30 p.m.</option>
+                          <option value="14:45">02 : 45 p.m.</option>
+                          <option value="15:00">03 : 00 p.m.</option>
+                          <option value="15:15">03 : 15 p.m.</option>
+                          <option value="15:30">03 : 30 p.m.</option>
+                          <option value="15:45">03 : 45 p.m.</option>
+                          <option value="16:00">04 : 00 p.m.</option>
+                          <option value="16:15">04 : 15 p.m.</option>
+                          <option value="16:30">04 : 30 p.m.</option>
+                          <option value="16:45">04 : 45 p.m.</option>
+                          <option value="17:00">05 : 00 p.m.</option>
+                          <option value="17:15">05 : 15 p.m.</option>
+                          <option value="17:30">05 : 30 p.m.</option>
+                          <option value="17:45">05 : 45 p.m.</option>
+                          <option value="18:00">06 : 00 p.m.</option>
+                          <option value="18:15">06 : 15 p.m.</option>
+                          <option value="18:30">06 : 30 p.m.</option>
+                          <option value="18:45">06 : 45 p.m.</option>
+                          <option value="19:00">07 : 00 p.m.</option>
+                          <option value="19:15">07 : 15 p.m.</option>
+                          <option value="19:30">07 : 30 p.m.</option>
+                          <option value="19:45">07 : 45 p.m.</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!--   <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="duracionhora">Duración en hora </label>
+                        <select id="duracionhora" name="duracionhora" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <option value="01">1 Hora.</option>
+                          <option value="02">2 Hora.</option>
+                          <option value="03">3 Hora.</option>
+                          <option value="04">4 Hora.</option>
+                          <option value="05">5 Hora.</option>
+                          <option value="06">6 Hora.</option>
+                          <option value="07">7 Hora.</option>
+                          <option value="08">8 Hora.</option>
+                          <option value="09">9 Hora.</option>
+                          <option value="10">10 Hora.</option>
+                          <option value="11">11 Hora.</option>
+                          <option value="12">12 Hora.</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="duracionminuto">Minutos.</label>
+                        <select id="duracionminuto" name="duracionminuto" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <option value="00">0 Minutos.</option>
+                          <option value="15">15 Minutos.</option>
+                          <option value="30">30 Minutos.</option>
+                          <option value="45">45 Minutos.</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>-->
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="materialsocializado">Tiempo Trancurrido</label>
+                      <input type="text" id="horas_justificacion_real" name="horas_justificacion_real" class="form-control">
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="profesor">Profesor</label>
                         <select id="profesoradd" name="profesoradd" class="form-control select2" style="width: 100%;" required>
-                        <option value="" selected disabled hidden>Choose here</option>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
                           <?php foreach ($teachers as $teachers) : ?>
                             <option value="<?php echo removeJunk($teachers['id_teacher']); ?>"><?php echo removeJunk($teachers['fullname_teacher']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
+
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="asignatura">Asignatura</label>
-                        <select id="asignaturaadd" name="asignaturaadd" class="form-control select2" style="width: 100%;">
-                        <option value="" selected disabled hidden>Choose here</option>
+                        <select id="asignaturaadd" name="asignaturaadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
                           <?php foreach ($subject as $subject) : ?>
                             <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
-
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="materialsocializado">Material socializado</label>
-                        <input type="text" id="materialsocializadoadd" name="materialsocializadoadd" class="form-control">
-                      </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="materialsocializado">Material socializado</label>
+                      <input type="text" id="materialsocializadoadd" name="materialsocializadoadd" class="form-control" required>
                     </div>
-
-
-                  </div>
-                  <div class="form-group">
-                    <label for="ejetematico">Eje temático</label>
-                    <input class="form-control form-control-lg" id="ejetematicoadd" name="ejetematicoadd" type="text" placeholder="">
                   </div>
 
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="ejetematico">Eje temático</label>
+                      <input class="form-control form-control-lg" id="ejetematicoadd" name="ejetematicoadd" type="text" placeholder="" required>
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="institucion"> Institución </label>
-                        <input type="text" id="institucionadd" name="institucionadd" class="form-control">
+                        <input type="text" id="institucionadd" name="institucionadd" class="form-control" required>
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="grupo">Grupo</label>
-                        <select id="grupoadd" name="grupoadd" class="form-control select2" required>
-                        <option value="" selected disabled hidden>Choose here</option>
+                        <select id="grupoadd" name="grupoadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
                           <?php foreach ($group as $group) : ?>
-                            <option value="<?php echo removeJunk($group['id_group']); ?>"><?php echo removeJunk($group['name_group']); ?></option>
+                            <option value="<?php echo removeJunk($group['id_group']); ?>"><?php echo removeJunk($group['cod_group']) . " - " . removeJunk($group['name_group']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -203,7 +368,7 @@ $asistance = findAllasistance();
                         <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
                         <td class="text-center">
-                          <a  class="btn btn-info btn-small btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=600,left=50,top=50,toolbar=yes');void 0">
+                          <a class="btn btn-info btn-small btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
                             <i class="fa fa-eye"></i> </a>
                         </td>
                       </tr>
@@ -231,9 +396,6 @@ $asistance = findAllasistance();
 
     </div>
     <!-- /.content-wrapper -->
-
-
-
 
     <div class="modal fade" id="modal-lg">
       <div class="modal-dialog modal-lg">
@@ -343,9 +505,6 @@ $asistance = findAllasistance();
         $('#grupoconfig').css("border-color", "red");
       }
     });
-
-
-
   });
 </script>
 <script>
@@ -355,7 +514,7 @@ $asistance = findAllasistance();
 
     var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.pdf)$/i;
     if (!allowedExtensions.exec(filePath)) {
-      alert($name + 'Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+      alert('El  archivo ' + $name + ' no contiene extensiones: .jpeg / .jpg / .png / .gif / .pdf');
       fileInput.value = '';
       return false;
     } else {
@@ -371,6 +530,7 @@ $asistance = findAllasistance();
       "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
@@ -390,13 +550,54 @@ $asistance = findAllasistance();
       idVer = $(this).data('id');
       var evidencia = $(this).data('evidencia');
 
-
-
-
       document.getElementById("visual").src = "../uploads/evidences/" + evidencia;
       $("#idVer").val(idVer);
     });
   });
+
+
+  function calculardiferencia() {
+
+    var hora_final = $('#horafinaladd').val();
+    var hora_inicio = $('#horainicioadd').val();
+    // console.log("- "+hora_inicio + hora_final);
+    // Expresión regular para comprobar formato
+    var formatohora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
+    // Si algún valor no tiene formato correcto sale
+    if (!(hora_inicio.match(formatohora) &&
+        hora_final.match(formatohora))) {
+      return;
+    }
+
+    // Calcula los minutos de cada hora
+    var minutos_inicio = hora_inicio.split(':')
+      .reduce((p, c) => parseInt(p) * 60 + parseInt(c));
+    var minutos_final = hora_final.split(':')
+      .reduce((p, c) => parseInt(p) * 60 + parseInt(c));
+
+    // Si la hora final es anterior a la hora inicial sale
+    if (minutos_final < minutos_inicio) return;
+
+    // Diferencia de minutos
+    var diferencia = minutos_final - minutos_inicio;
+
+    // Cálculo de horas y minutos de la diferencia
+    var horas = Math.floor(diferencia / 60);
+    var minutos = diferencia % 60;
+    if (hora_final <= hora_inicio) {
+      $('#horas_justificacion_real').val("Error, la hora final no puede ser menor a la hora de inicio.");
+    } else {
+      $('#horas_justificacion_real').val(horas + ':' +
+        (minutos < 10 ? '0' : '') + minutos);
+    }
+
+
+  }
+
+  $('#horainicioadd').change(calculardiferencia);
+  $('#horafinaladd').change(calculardiferencia);
+  calculardiferencia();
 </script>
 
 

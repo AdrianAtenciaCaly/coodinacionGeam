@@ -64,3 +64,6 @@
 <script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="../assets/plugins/select2/js/select2.full.min.js"></script>
+<script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script src="../assets/plugins/fullcalendar/main.js"></script>

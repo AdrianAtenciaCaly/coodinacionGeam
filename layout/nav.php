@@ -69,7 +69,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../pages/teachers" class="nav-link">
+                  <a href="../pages/lessons" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Clases</p>
                   </a>

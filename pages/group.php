@@ -15,7 +15,7 @@ $group = findAllgroup();
   <title>Grupos | GEAM</title>
   <link rel="icon" href="../assets/dist/img/favicon.ico">
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -34,10 +34,18 @@ $group = findAllgroup();
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
+
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
@@ -100,7 +108,7 @@ $group = findAllgroup();
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="inputStatus">Grado</label>
-                      <select id="gradogrupo" name="gradogrupo" class="form-control custom-select">
+                      <select id="gradogrupo" name="gradogrupo" class="form-control select2">
                       <option value="" selected disabled hidden>Choose here</option>
                         <option value="9">9º</option>
                         <option value="10">10º</option>
@@ -186,6 +194,15 @@ $group = findAllgroup();
   }
 </script>
 <script>
+
+  $(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
   $(function() {
     $("#example1").DataTable({
       "responsive": true,
