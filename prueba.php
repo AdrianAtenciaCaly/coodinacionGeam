@@ -1,3 +1,1 @@
-<?php 
-include_once('includes/load.php');
-cms_alert("Hello World!", "success"); ?>
+<embed src="RUP.pdf" type="application/pdf" width="100%"  height="600px" />

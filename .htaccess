@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php
+
+ErrorDocument 404 /coordinacionGeam/pages/error/404.php
+ErrorDocument 500 /sigcam/errores/500.html
+ErrorDocument 503 /sigcam/errores/503.html
+
+</IfModule>

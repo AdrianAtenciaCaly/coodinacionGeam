@@ -350,7 +350,7 @@ function findAllBoxidbox($table, $idbox)
  *  @return $result
  * @param $table, $date
  */
-function findAllBoxDate($table, $mes,$año)
+function findAllBoxDate($table, $mes, $año)
 {
   global $db;
   if (tableExists($table)) {
@@ -395,4 +395,66 @@ function getLastUpadateInitialBalance($table)
     $sql  = "SELECT lastUpdate FROM $table ";
     return find_by_sql($sql);
   }
+}
+
+
+function findAllTeachers()
+{
+  global $db;
+  $sql  = " SELECT * FROM teacher ORDER BY  id_teacher DESC";
+  return find_by_sql($sql);
+}
+
+function findAllsubject()
+{
+  global $db;
+  $sql  = " SELECT * FROM subject ORDER BY  id_subject DESC";
+  return find_by_sql($sql);
+}
+
+
+function findAllgroup()
+{
+  global $db;
+  $sql  = " SELECT * FROM troop ORDER BY  id_group DESC";
+  return find_by_sql($sql);
+}
+
+function findAllasistance()
+{
+  global $db;
+  $sql  = " SELECT a.id_assistance, 
+  a.date, 
+  t.fullname_teacher,
+  s.name_subject, 
+  a.socialized_material_assistance, 
+  a.main_theme_assistance, 
+  a.institution_assistance, 
+  g.name_group, 
+  a.observations_assistance,
+  a.evidence_assistance
+  FROM assistance a INNER JOIN teacher t ON 
+  a.teacher_assistance=t.id_teacher INNER JOIN subject s ON 
+  a.subject_assistance = s.id_subject INNER JOIN troop g ON 
+  a.group_assistance = g.id_group ORDER BY id_assistance DESC;";
+  return find_by_sql($sql);
+}
+
+function findAllstudents()
+{
+  global $db;
+  $sql  = " SELECT s.id_students,
+  s.identification_students,
+  s.names_students,
+  g.name_group
+   FROM students  s INNER JOIN  troop g ON g.id_group = s.group_students ORDER BY  id_students DESC";
+  return find_by_sql($sql);
+}
+
+
+function findGroup($id) {
+  global $db;
+  $sql = " SELECT * FROM troop  WHERE  id_group = '$id'";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
 }

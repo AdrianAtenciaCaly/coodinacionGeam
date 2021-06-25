@@ -1,8 +1,9 @@
 <?php include_once('includes/load.php');
 if ($session->isUserLoggedIn(true)) {
-  redirect('add.php', false);
+  redirect('./pages/add', false);
 }
-if (isset($_POST['user']) && $_POST['password']) {
+
+if (isset($_POST['user']) && isset($_POST['password'])) {
   $req_fields = array('user', 'password');
   validate_fields($req_fields);
   $username = removeJunk($_POST['user']);
@@ -14,23 +15,20 @@ if (isset($_POST['user']) && $_POST['password']) {
       $session->login($user_id);
       updateLastLogIn($user_id);
       $user = current_user();
-      $session->msg("s", "Bienvenido  de nuevo " . $user['name']. " de nuevo!");
-      header("Location: add.php");
+      $session->msg("s", "Bienvenido  de nuevo " . $user['name'] . " de nuevo!");
+      header("Location: ./pages/add");
     } else {
-
       $session->msg("d", "Nombre de usuario y/o contraseña incorrecto.");
-      header("Location: index.php");
+      header("Location: index");
     }
   } else {
     $session->msg("d", $errors);
-    header("Location: index.php");
+    header("Location: index");
   }
 } else {
-  $session->msg("d", "Ha ocurrido un error, intentelo de nuevo.");
+  //$session->msg("d", "Ha ocurrido un error, intentelo de nuevo.");
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,14 +96,11 @@ if (isset($_POST['user']) && $_POST['password']) {
         </form>
         <?php
         echo '<script type="text/javascript"> toastr.success("a.")</script>';
-
         ?>
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
   </div>
-  <!-- /.login-box -->
+
 
   <!-- jQuery -->
   <script src="assets/plugins/jquery/jquery.min.js"></script>
@@ -123,7 +118,17 @@ if (isset($_POST['user']) && $_POST['password']) {
   <script src="assets/plugins/toastr/toastr.min.js"></script>
   <!-- AdminLTE App -->
   <script src="assets/dist/js/adminlte.min.js"></script>
-
+  <script>
+    $(document).ready(function() {
+      $('#remember').click(function() {
+        if ($('#remember').is(':checked')) {
+          $('#password').attr('type', 'text');
+        } else {
+          $('#password').attr('type', 'password');
+        }
+      });
+    });
+  </script>
 
 </body>
 

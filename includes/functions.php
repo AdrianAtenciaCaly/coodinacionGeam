@@ -162,3 +162,10 @@ function randString($length = 5)
     $str .= $cha[mt_rand(0, strlen($cha))];
   return $str;
 }
+function generarCodigo($longitud) {
+  $key = '';
+  $pattern = 'G1234567890abcdefghijklmnopqrstuvwxyz';
+  $max = strlen($pattern)-1;
+  for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+  return $key;
+}   

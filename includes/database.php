@@ -18,6 +18,7 @@ class MySqli_DB
   public function db_connect()
   {
     $this->con = mysqli_connect(DB_HOST, DB_USER, DB_PASS);
+    $this->con->set_charset("utf8");
     if (!$this->con) {
       echo "
       <!DOCTYPE html>
