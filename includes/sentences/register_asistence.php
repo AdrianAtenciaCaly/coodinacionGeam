@@ -1,7 +1,7 @@
 <?php
 include "../load.php";
 
-echo $_POST['dateadd'];
+
 /*echo  "fecha ".$_POST['fechaadd']."<br>"; 
 echo"profesor ". $_POST['profesoradd']."<br>"; 
 echo "asignatura ".$_POST['asignaturaadd']."<br>"; 
@@ -12,8 +12,12 @@ echo "eje ".$_POST['ejetematicoadd']."<br>";
 echo "institucion  ".$_POST['institucionadd']."<br>"; 
 echo "grupo ".$_POST['grupoadd']."<br>"; 
 echo "observaciones ".$_POST['observacionesadd']."<br>"; 
-echo "evidencia ". $_FILES['evidenceadd']['tmp_name']."<br>"; */
-/*if (isset($_POST['fechaadd']) && isset($_POST['profesoradd']) && isset($_POST['asignaturaadd']) && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd'])) {
+echo "evidencia ". $_FILES['evidenceadd']['name']."<br>"; 
+
+echo "hora de  inicio ".$_POST['horainicioadd']."<br>"; 
+echo "hora final ".$_POST['horafinaladd']."<br>"; 
+echo "tiempo transcurrido ".$_POST['horas_justificacion_real']."<br>"; */
+if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST['horafinaladd']) && isset($_POST['horas_justificacion_real']) && isset($_POST['profesoradd']) && isset($_POST['asignaturaadd']) && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd'])) {
     $carpeta = "../../uploads/evidences/";
     $nombre = $_FILES['evidenceadd']['name'];
 
@@ -24,7 +28,20 @@ echo "evidencia ". $_FILES['evidenceadd']['tmp_name']."<br>"; */
     if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg'|| $extension == 'pdf') {
         if (move_uploaded_file($_FILES['evidenceadd']['tmp_name'], $carpeta . $nombreFinal)) {
             $user = current_user();
-            $db->query("INSERT INTO assistance  VALUES(null,'" . $_POST['fechaadd'] . "','" . $_POST['profesoradd'] . "','" . $_POST['asignaturaadd'] . "','" . $_POST['materialsocializadoadd'] . "','" . $_POST['ejetematicoadd'] . "','" . $_POST['institucionadd'] . "','" . $_POST['grupoadd'] . "','" . $_POST['observacionesadd'] . "','" . $nombreFinal . "','" . make_date() . "','" .  $user['name'] . "'
+            $db->query("INSERT INTO assistance  VALUES(null,'" . $_POST['fechaadd'] . "',
+            '" . $_POST['horainicioadd'] . "',
+            '" . $_POST['horafinaladd'] . "',
+            '" . $_POST['horas_justificacion_real'] . "',
+            '" . $_POST['profesoradd'] . "',
+            '" . $_POST['asignaturaadd'] . "',
+            '" . $_POST['materialsocializadoadd'] . "',
+            '" . $_POST['ejetematicoadd'] . "',
+            '" . $_POST['institucionadd'] . "',
+            '" . $_POST['grupoadd'] . "',
+            '" . $_POST['observacionesadd'] . "',
+            '" . $nombreFinal . "',
+            '" . make_date() . "',
+            '" .  $user['name'] . "'
  )") or die($db->error);
             $session->msg('s', "Asistencia  agregada correctamente.");
             redirect('../../pages/add', false);
@@ -42,4 +59,3 @@ echo "evidencia ". $_FILES['evidenceadd']['tmp_name']."<br>"; */
     $session->msg('d', "Favor de llenar todos los campos. ");
     redirect('../../pages/add', false);
 }
-*/

@@ -65,7 +65,7 @@ $group = findAllgroup();
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
                 <li class="breadcrumb-item active">Docentes</li>
               </ol>
             </div><!-- /.col -->
@@ -154,7 +154,7 @@ $group = findAllgroup();
                         <td class="text-center"><?php echo countId(); ?></td>
                         <td class="text-center"> <?php echo removeJunk($group['cod_group']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($group['name_group']); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($group['grade_group']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($group['grade_group'])."º"; ?></td>
                       </tr>
                     <?php endforeach; ?>
 

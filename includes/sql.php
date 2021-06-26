@@ -423,7 +423,10 @@ function findAllgroup()
 function findAllasistance(){
   global $db;
   $sql  = " SELECT a.id_assistance, 
-  a.date, 
+  a.date_assistance, 
+  a.start_time_assistance,
+  a.end_time_assistance,
+  a.time_elapsed_assistance,
   t.fullname_teacher,
   s.name_subject, 
   a.socialized_material_assistance, 
@@ -454,6 +457,25 @@ function findAllstudents()
 function findGroup($id) {
   global $db;
   $sql = " SELECT * FROM troop  WHERE  id_group = '$id'";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+
+function countGroup(){
+  global $db;
+  $sql  = "SELECT COUNT(*) as total FROM troop";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+function countAsistence(){
+  global $db;
+  $sql  = "SELECT COUNT(*) as total FROM assistance";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+function countTeacher(){
+  global $db;
+  $sql  = "SELECT COUNT(*) as total FROM teacher";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }

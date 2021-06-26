@@ -64,7 +64,7 @@ $asistance = findAllasistance();
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
                 <li class="breadcrumb-item active">Asistencia</li>
               </ol>
             </div><!-- /.col -->
@@ -85,7 +85,7 @@ $asistance = findAllasistance();
                 </div>
               </div>
               <div class="card-body">
-                <form action="../includes/sentences/register_asistence.php" method="POST" enctype="multipart/form-data">
+                <form action="../includes/sentences/register_asistence.php" method="POST" enctype="multipart/form-data" id="form_add">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -251,7 +251,7 @@ $asistance = findAllasistance();
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="materialsocializado">Tiempo Trancurrido</label>
-                      <input type="text" id="horas_justificacion_real" name="horas_justificacion_real" class="form-control">
+                      <input type="text" id="horas_justificacion_real" name="horas_justificacion_real" class="form-control" readonly>
                     </div>
                   </div>
                   <div class="row">
@@ -306,7 +306,7 @@ $asistance = findAllasistance();
                         <select id="grupoadd" name="grupoadd" class="form-control select2" style="width: 100%;" required>
                           <option value="" selected disabled hidden>Seleccione una opción </option>
                           <?php foreach ($group as $group) : ?>
-                            <option value="<?php echo removeJunk($group['id_group']); ?>"><?php echo removeJunk($group['cod_group']) . " - " . removeJunk($group['name_group']); ?></option>
+                            <option value="<?php echo removeJunk($group['id_group']); ?>"><?php echo removeJunk($group['grade_group']) . "º  -  " . removeJunk($group['name_group']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -320,7 +320,7 @@ $asistance = findAllasistance();
                     <label for="exampleInputFile">Adjuntar lista de asistencia (.txt / .docx / .jpg) </label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="evidenceadd" name="evidenceadd" onchange="return fileValidation(this.files[0].name)" />
+                        <input type="file" class="custom-file-input" id="evidenceadd" required name="evidenceadd" onchange="return fileValidation(this.files[0].name)" />
                         <label class="custom-file-label" id="evidencelabel" name="evidencelabel" for="exampleInputFile"></label>
                       </div>
                     </div>
@@ -347,6 +347,9 @@ $asistance = findAllasistance();
                     <tr>
                       <th>#</th>
                       <th>Fecha</th>
+                      <th>Hora de inicio</th>
+                      <th>Hora final</th>
+                      <th>Duracion de la clase</th>
                       <th>Docente</th>
                       <th>Asignatura</th>
                       <th>Material socializado</th>
@@ -360,7 +363,10 @@ $asistance = findAllasistance();
                     <?php foreach ($asistance as $asistance) : ?>
                       <tr>
                         <td class="text-center"><?php echo countId(); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($asistance['date']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($asistance['end_time_assistance']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Horas"; ?></td>
                         <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
@@ -368,8 +374,9 @@ $asistance = findAllasistance();
                         <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
                         <td class="text-center">
-                          <a class="btn btn-info btn-small btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
-                            <i class="fa fa-eye"></i> </a>
+                          <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
+                            <i class="fas fa-folder"></i>
+                            Ver </a>
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -454,7 +461,7 @@ $asistance = findAllasistance();
       $("#observacionesconfig").val(observaciones);
       $("#evidenceconfig").val(evidencia);
     });
-    $('#asistenciaconfirmacion').on('submit', function(event) {
+    $('#form_add').on('submit', function(event) {
       var $fechaconfirmacion = $('#fechaconfi').val();
       var $profesorconfirmacion = $('#profesorconfig').val();
       var $asignaturaconfirmacion = $('#asignaturaconfig').val();
@@ -511,14 +518,18 @@ $asistance = findAllasistance();
   function fileValidation($name) {
     var fileInput = document.getElementById('evidenceadd');
     var filePath = fileInput.value;
+    if (fileInput.length == 0) {
+      alert("Por favor seleccion un archivo");
 
-    var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.pdf)$/i;
-    if (!allowedExtensions.exec(filePath)) {
-      alert('El  archivo ' + $name + ' no contiene extensiones: .jpeg / .jpg / .png / .gif / .pdf');
-      fileInput.value = '';
-      return false;
     } else {
-      $("#name").val($name);
+      var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.pdf)$/i;
+      if (!allowedExtensions.exec(filePath)) {
+        alert('El  archivo ' + $name + ' no contiene extensiones: .jpeg / .jpg / .png / .gif / .pdf');
+        fileInput.value = '';
+        return false;
+      } else {
+        $("#name").val($name);
+      }
     }
   }
 </script>
@@ -585,8 +596,8 @@ $asistance = findAllasistance();
     // Cálculo de horas y minutos de la diferencia
     var horas = Math.floor(diferencia / 60);
     var minutos = diferencia % 60;
-    if (hora_final <= hora_inicio) {
-      $('#horas_justificacion_real').val("Error, la hora final no puede ser menor a la hora de inicio.");
+    if (hora_final <= hora_inicio || hora_inicio > hora_final) {
+      $('#horas_justificacion_real').val("Error, Verifique...");
     } else {
       $('#horas_justificacion_real').val(horas + ':' +
         (minutos < 10 ? '0' : '') + minutos);

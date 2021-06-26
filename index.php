@@ -16,7 +16,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
       updateLastLogIn($user_id);
       $user = current_user();
       $session->msg("s", "Bienvenido  de nuevo " . $user['name'] . " de nuevo!");
-      header("Location: ./pages/add");
+      header("Location: ./pages/dashboard");
     } else {
       $session->msg("d", "Nombre de usuario y/o contraseña incorrecto.");
       header("Location: index");
@@ -63,7 +63,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 
         <form action="index.php" method="post">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="user" name="user" placeholder="Usuario">
+            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" title="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -71,31 +71,33 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" required name="password" placeholder="Password" title="Contraseña">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
+          <br>
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">
-                <input type="checkbox" id="remember">
+                <input type="checkbox" id="remember" title="Ver contraseña">
                 <label for="remember">
                   Ver Contraseña
                 </label>
               </div>
             </div>
             <!-- /.col -->
+            <br>
             <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+              <button type="submit" title="Ingresar" class="btn btn-primary btn-block">Ingresar</button>
             </div>
             <!-- /.col -->
           </div>
         </form>
         <?php
-        echo '<script type="text/javascript"> toastr.success("a.")</script>';
+
         ?>
       </div>
     </div>

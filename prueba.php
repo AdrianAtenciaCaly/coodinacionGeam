@@ -1,1 +1,5 @@
-<embed src="RUP.pdf" type="application/pdf" width="100%"  height="600px" />
+<?php include_once('includes/load.php');
+$numeroGrupo = countGroup();
+echo $numeroGrupo['total'];
+
+?>

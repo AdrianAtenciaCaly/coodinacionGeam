@@ -65,7 +65,7 @@ $subject = findAllsubject();
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
                 <li class="breadcrumb-item active">Docentes</li>
               </ol>
             </div><!-- /.col -->
@@ -89,19 +89,19 @@ $subject = findAllsubject();
                 </div>
               </div>
               <div class="card-body">
-                <form action="../includes/sentences/register_teacher.php" method="POST">
+                <form action="../includes/sentences/register_teacher.php" method="POST" id="form_teacher">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="nombres">Nombres</label>
-                        <input type="text" id="nombredocente" name="nombredocente" oninput="actualizarnombreCompleto()" class="form-control" required>
+                        <input type="text" id="nombredocente" name="nombredocente" oninput="actualizarnombreCompleto()" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" required>
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidodocente" name="apellidodocente" oninput="actualizarnombreCompleto()" class="form-control" required>
+                        <input type="text" id="apellidodocente" name="apellidodocente" oninput="actualizarnombreCompleto()" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" required>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -115,11 +115,11 @@ $subject = findAllsubject();
                     <div class="form-group">
                       <label for="asiganature">Asiganatura impartida</label>
                       <select id="asignaturedocente" name="asignaturedocente" class="form-control select2" required>
-                        <option value="" selected disabled hidden>Choose here</option>
-                          <?php foreach ($subject as $subject) : ?>
-                            <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
-                          <?php endforeach; ?>
-                        </select>
+                        <option value="" selected disabled hidden>Seleccione una opción </option>
+                        <?php foreach ($subject as $subject) : ?>
+                          <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
+                        <?php endforeach; ?>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -202,6 +202,9 @@ $subject = findAllsubject();
   })
 </script>
 <script>
+
+
+
   function fileValidation(nombre) {
     var fileInput = document.getElementById('evidenceFile');
     var filePath = fileInput.value;
