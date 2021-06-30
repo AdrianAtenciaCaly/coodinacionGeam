@@ -1,6 +1,5 @@
 <?php 
 include_once('includes/load.php');
-
 /*$pdo = new PDO("mysql:dbname=coordinacion;host localhost","root","");
 $sql =  $pdo->prepare(" SELECT * FROM troop ");
 $sql->execute();

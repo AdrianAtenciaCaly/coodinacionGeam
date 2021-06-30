@@ -1,5 +1,5 @@
 <?php include_once('includes/load.php');
-$numeroGrupo = countGroup();
-echo $numeroGrupo['total'];
+$con = countStudentsGroup(1);
+echo  $con['total'];
 
 ?>

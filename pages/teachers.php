@@ -1,9 +1,11 @@
 <?php include_once('../includes/load.php');
 if (!$session->isUserLoggedIn(true)) {
-  redirect('index.php', false);
+  redirect('../index', false);
 }
 $teachers = findAllTeachers();
 $subject = findAllsubject();
+$subjectE= findAllsubject();
+
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +83,6 @@ $subject = findAllsubject();
               <?php echo displayMSG($msg); ?>
               <div class="card-header">
                 <h3 class="card-title">Registrar Docente</h3>
-
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                     <i class="fas fa-minus"></i>
@@ -161,7 +162,12 @@ $subject = findAllsubject();
                         <td class="text-center"> <?php echo removeJunk($teachers['names_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['surnames_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['name_subject']); ?></td>
-                        <td class="text-center"> Opciones </td>
+                        <td class="text-center">
+                          <button title="Editar" class="btn btn-info btn-sm btnEditar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-apellidos="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-observaciones="<?php echo $teachers['observations_teacher']; ?>" data-toggle="modal" data-target="#modalEditar">
+                            <i class="far fa-edit"></i> </button>
+                          <!-- <button title="Eliminar" class="btn btn-danger btn-sm btnEliminar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-nombrecompleto="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-toggle="modal" data-target="#modalEliminar">
+                            <i class="far fa-trash-alt"></i> </button>-->
+                        </td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
@@ -187,6 +193,104 @@ $subject = findAllsubject();
 
     </div>
     <!-- /.content-wrapper -->
+    <div class="modal fade" id="modalEditar">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Editar</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card card-primary">
+              <?php echo displayMSG($msg); ?>
+              <div class="card-header">
+                <h3 class="card-title">Editar Docente</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <form action="../includes/sentences/update_teacher.php" method="POST" id="form_teacher">
+                  <input type="hidden" id="iddocenteeditar" name="iddocenteeditar" required>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" id="nombredocenteeditar" name="nombredocenteeditar" oninput="actualizarnombreCompletoEditar()" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidodocenteeditar" name="apellidodocenteeditar" oninput="actualizarnombreCompletoEditar()" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="completo">Nombre completo</label>
+                        <input type="text" id="nombrecompletoeditar" name="nombrecompletoeditar" class="form-control" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="asiganature">Asiganatura impartida</label>
+                      <select id="asignaturedocenteeditar" name="asignaturedocenteeditar" class="form-control select2" required>
+                        <option value="" selected disabled hidden>Seleccione una opción </option>
+                        <?php foreach ($subjectE as $subjectE) : ?>
+                          <option value="<?php echo removeJunk($subjectE['id_subject']); ?>"><?php echo removeJunk($subjectE['name_subject']); ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea class="form-control" id="observacionesdocenteeditar" name="observacionesdocenteeditar" rows="3" placeholder="Observaciones..."></textarea>
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-success float-right">
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modalEliminar">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Eliminar </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+
+
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
 
 
     <?php include('../layout/footer.php'); ?>
@@ -202,9 +306,6 @@ $subject = findAllsubject();
   })
 </script>
 <script>
-
-
-
   function fileValidation(nombre) {
     var fileInput = document.getElementById('evidenceFile');
     var filePath = fileInput.value;
@@ -245,6 +346,61 @@ $subject = findAllsubject();
     //Se actualiza en municipio inm
     document.getElementById("nombrecompleto").value = nombres.toUpperCase() + " " + apellidos.toUpperCase();
   }
+
+  function actualizarnombreCompletoEditar() {
+    let nombres = document.getElementById("nombredocenteeditar").value;
+    let apellidos = document.getElementById("apellidodocenteeditar").value;
+    //Se actualiza en municipio inm
+    document.getElementById("nombrecompletoeditar").value = nombres.toUpperCase() + " " + apellidos.toUpperCase();
+  }
+  $(document).ready(function() {
+    var idEliminar = -1;
+    var idEditar = -1;
+    var fila;
+    $(".btnEliminar").click(function() {
+      idEliminar = $(this).data('id');
+      fila = $(this).parent('td').parent('tr');
+
+      var nombres = $(this).data('nombres');
+      var apellidos = $(this).data('apellidos');
+      var asignatura = $(this).data('asiganatura');
+      var observaciones = $(this).data('observaciones');
+
+    });
+
+    $(".eliminar").click(function() {
+      $.ajax({
+        url: '../includes/sqlinsert/delete_product.php',
+        method: 'POST',
+        data: {
+          id: idEliminar
+        }
+      }).done(function(res) {
+
+        $(fila).fadeOut(1000);
+      });
+
+    });
+
+    //Editar
+    $(".btnEditar").click(function() {
+
+      idEditar = $(this).data('id');
+      var nombres = $(this).data('nombres');
+      var apellidos = $(this).data('apellidos');
+      var asignatura = $(this).data('asiganatura');
+      var observaciones = $(this).data('observaciones');
+      $("#iddocenteeditar").val(idEditar);
+      $("#nombredocenteeditar").val(nombres);
+      $("#apellidodocenteeditar").val(apellidos);
+      $("#nombrecompletoeditar").val(nombres + " " + apellidos);
+      $("#observacionesdocenteeditar").val(observaciones);
+
+    });
+
+
+
+  });
 </script>
 
 </html>

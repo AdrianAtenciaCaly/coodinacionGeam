@@ -1,6 +1,6 @@
 <?php include_once('../includes/load.php');
 if (!$session->isUserLoggedIn(true)) {
-  redirect('index.php', false);
+  redirect('../index', false);
 }
 $teachers = findAllTeachers();
 $group = findAllgroup();

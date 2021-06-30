@@ -84,24 +84,7 @@ function find_by_id_user($table, $id)
       return null;
   }
 }
-/**
- * Función para buscar datos de la tabla por id de caja 
- *
- * @return   result   resultado de la consulta
- * @param string $table  la tabla a buscar, $id id a buscar
- */
-function find_by_id_box($table, $id)
-{
-  global $db;
-  $id = (int) $id;
-  if (tableExists($table)) {
-    $sql = $db->query("SELECT * FROM {$db->escape($table)} WHERE idbox='{$db->escape($id)}'");
-    if ($result = $db->fetch_assoc($sql))
-      return $result;
-    else
-      return null;
-  }
-}
+
 
 /**
  * Función para buscar datos de la tabla por id de caja 
@@ -121,118 +104,6 @@ function delete_by_id($table, $id)
   }
 }
 
-/**
- * Función para buscar el saldo inicial en caja
- *
- * @return result 
- * @param string $table  la tabla a buscar
- */
-function initialBalance($table)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql    = "SELECT * FROM " . $db->escape($table);
-    $result = $db->query($sql);
-    return ($db->fetch_assoc($result));
-  }
-}
-/**
- * Función para buscar  los ultimos movimiento de egresos en caja por dia 
- * @return result 
- * @param string $table  la tabla a ingresar datos
- */
-function lastMovementsEgresos($table)
-{
-  $date =  date("m/d/Y");
-  global $db;
-  $sql  = " SELECT * FROM $table WHERE  opcion = 'EGRESO' and fecha= '$date'  ORDER BY  idbox DESC";
-  return find_by_sql($sql);
-}
-/**
- * Función para buscar  los ultimos movimiento de ingresos en caja por dia 
- * @return result 
- * @param string $table  la tabla a ingresar datos
- */
-function lastMovementsIngresos($table)
-{
-  $date =  date("m/d/Y");
-  global $db;
-  $sql  = " SELECT * FROM $table WHERE  opcion = 'INGRESO' and fecha= '$date'  ORDER BY  idbox DESC";
-  return find_by_sql($sql);
-}
-/**
- * Función para buscar  el total   por movientos (EGRESO)
- * @return result 
- * @param string $table  la tabla a ingresar datos, $date fecha a buscar
- */
-function getTotalEgresos($table, $date)
-{
-
-  global $db;
-  if (tableExists($table)) {
-    $sql = "SELECT sum(valor) AS total FROM $table WHERE fecha = '$date' and opcion = 'EGRESO'";
-    $result = $db->query($sql);
-    return ($db->fetch_assoc($result));
-  }
-}
-/**
- * Función para buscar  el total  por movientos (INGRESOS)
- * @return result 
- * @param string $table  la tabla a ingresar datos, $date fecha a buscar
- */
-function getTotalIngresos($table, $date)
-{
-
-  global $db;
-  if (tableExists($table)) {
-    $sql = "SELECT sum(valor) AS total FROM $table WHERE fecha = '$date' and opcion = 'INGRESO'";
-    $result = $db->query($sql);
-    return ($db->fetch_assoc($result));
-  }
-}
-/**
- * Función para obtener el saldo en caja
- * @return $total el total de saldo en caja
- */
-function checkCashBalance()
-{
-  $totalEgresosall = getTotalEgresosAll('box');
-  $totalIngresosall = getTotalIngresoAll('box');
-  $initialBalance = initialBalance('initial_balance');
-  $total3 =   $totalEgresosall['total'];
-  $total1 =   $initialBalance['balance'];
-  $total2 =  $totalIngresosall['total'];
-  $total = ($total1 + $total2 - $total3);
-  return $total;
-}
-/**
- * Función para obtener el total de ingresos en caja
- * @return result 
- * @param string $table  la tabla a buscar. 
- */
-function getTotalEgresosAll($table)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql = "SELECT sum(valor) AS total FROM $table WHERE  opcion = 'EGRESO'";
-    $result = $db->query($sql);
-    return ($db->fetch_assoc($result));
-  }
-}
-/**
- * Función para obtener el total de ingresos en caja
- * @return result 
- * @param string $table  la tabla a buscar. 
- */
-function getTotalIngresoAll($table)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql = "SELECT sum(valor)AS total FROM $table WHERE   opcion = 'INGRESO'";
-    $result = $db->query($sql);
-    return ($db->fetch_assoc($result));
-  }
-}
 /**
  * Función para determinar si la tabla existe 
  * @return boolean true si existe o false si no
@@ -319,89 +190,18 @@ function updateLastLogIn($user_id)
   $result = $db->query($sql);
   return ($result && $db->affected_rows() === 1 ? true : false);
 }
-/**
- * Función para obtener todo los datos de la caja
- *  @return $result
- * 
- */
-function findAllBox()
-{
-  global $db;
-  $sql  = " SELECT idbox,fecha,concepto,doc_identidad,recibo_caja,opcion,valor,detalles FROM box ORDER BY  idbox DESC";
-  return find_by_sql($sql);
-}
-/**
- * Función para obtener todo los datos de la caja por id 
- *  @return $result
- * @param $table, $idbox
- */
-function findAllBoxidbox($table, $idbox)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql  = "SELECT idbox,fecha,concepto,doc_identidad,recibo_caja,opcion,valor,detalles FROM $table WHERE idbox = '$idbox'";
 
-    return find_by_sql($sql);
-  }
-}
-
-/**
- * Función para obtener todo los datos de la caja por fecha
- *  @return $result
- * @param $table, $date
- */
-function findAllBoxDate($table, $mes, $año)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql  = "SELECT * FROM $table WHERE mes = '$mes' and año = '$año' ORDER BY  idbox DESC";
-    return find_by_sql($sql);
-  }
-}
-/**
- * Función para obtener todo los datos de la caja por mes y año
- *  @return $result
- * @param $table, $month, $year
- */
-function findAllBoxMonthlyyear($table, $month, $year)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql  = "SELECT * FROM $table WHERE mes = '$month' and año = '$year' ORDER BY  idbox DESC";
-    return find_by_sql($sql);
-  }
-}
-/**
- * Función para obtener todo los datos de la caja por año
- *  @return $result
- * @param $table,  $year
- */
-function findAllBoxYear($table, $year)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql  = "SELECT * FROM $table WHERE  año = '$year' ORDER BY  idbox DESC";
-    return find_by_sql($sql);
-  }
-}
-/**
- * Función para obtener la fecha y hora del ultimo movimiento de actualizacion en caja
- *  @return $result
- */
-function getLastUpadateInitialBalance($table)
-{
-  global $db;
-  if (tableExists($table)) {
-    $sql  = "SELECT lastUpdate FROM $table ";
-    return find_by_sql($sql);
-  }
-}
 
 
 function findAllTeachers()
 {
   global $db;
-  $sql  = " SELECT t.id_teacher, t.names_teacher, t.surnames_teacher , t.fullname_teacher , t.observations_teacher , s.name_subject FROM teacher  t INNER JOIN subject s  ON s.id_subject = t.subject_teacher  ORDER BY  id_teacher DESC";
+  $sql  = " SELECT t.id_teacher,
+   t.names_teacher,
+    t.surnames_teacher , 
+    t.fullname_teacher ,
+     t.observations_teacher , 
+     s.name_subject FROM teacher  t INNER JOIN subject s  ON s.id_subject = t.subject_teacher  ORDER BY  id_teacher DESC";
   return find_by_sql($sql);
 }
 
@@ -416,13 +216,13 @@ function findAllsubject()
 function findAllgroup()
 {
   global $db;
-  $sql  = " SELECT * FROM troop ORDER BY  id_group DESC";
+  $sql  = "SELECT * FROM troop ORDER BY  id_group DESC";
   return find_by_sql($sql);
 }
-
-function findAllasistance(){
+function findAllasistance()
+{
   global $db;
-  $sql  = " SELECT a.id_assistance, 
+  $sql  = "SELECT a.id_assistance, 
   a.date_assistance, 
   a.start_time_assistance,
   a.end_time_assistance,
@@ -437,7 +237,7 @@ function findAllasistance(){
   a.evidence_assistance
   FROM assistance a INNER JOIN teacher t ON 
   a.teacher_assistance=t.id_teacher INNER JOIN subject s ON 
-  a.subject_assistance = s.id_subject INNER JOIN troop g ON 
+  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
   a.group_assistance = g.id_group ORDER BY id_assistance DESC;";
   return find_by_sql($sql);
 }
@@ -454,28 +254,59 @@ function findAllstudents()
 }
 
 
-function findGroup($id) {
+function findGroup($id)
+{
   global $db;
   $sql = " SELECT * FROM troop  WHERE  id_group = '$id'";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
 
-function countGroup(){
+function countGroup()
+{
   global $db;
   $sql  = "SELECT COUNT(*) as total FROM troop";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
-function countAsistence(){
+function countAsistence()
+{
   global $db;
   $sql  = "SELECT COUNT(*) as total FROM assistance";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
-function countTeacher(){
+function countTeacher()
+{
   global $db;
   $sql  = "SELECT COUNT(*) as total FROM teacher";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
+}
+
+function countStudentsGroup($id_group)
+{
+  global $db;
+  $sql  = "select COUNT(*) as total  from students WHERE group_students = '.$id_group.'";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+
+
+function groupById($id_group)
+{
+  global $db;
+  $sql  = "select *  from troop WHERE id_group = '.$id_group.'";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+function findAllstudentsById($id_group)
+{
+  global $db;
+  $sql  = "SELECT s.id_students,
+  s.identification_students,
+  s.names_students,
+  g.name_group
+   FROM students  s INNER JOIN  troop g ON g.id_group = s.group_students WHERE g.id_group=".$id_group."";
+  return find_by_sql($sql);
 }

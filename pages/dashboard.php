@@ -37,7 +37,6 @@ $asistance = findAllasistance();
     <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
-
     <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Theme style -->
@@ -50,7 +49,6 @@ $asistance = findAllasistance();
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-
     <div class="wrapper">
         <?php include('../layout/nav.php'); ?>
         <!-- Content Wrapper. Contains page content -->
@@ -141,8 +139,7 @@ $asistance = findAllasistance();
                                                     <th>Material socializado</th>
                                                     <th>Eje temático</th>
                                                     <th>Institución</th>
-                                                    <th>Grupo</th>
-                                                    <th>Evidencia</th>
+                                                    <th>Grupo</th>                                                  
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -158,23 +155,10 @@ $asistance = findAllasistance();
                                                         <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
                                                         <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
                                                         <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
-                                                        <td class="text-center">
-                                                            <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
-                                                                <i class="fas fa-folder"></i>
-                                                                Ver </a>
-                                                        </td>
+                                                        <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>                                                   
                                                     </tr>
                                                 <?php endforeach; ?>
-                                            </tbody>
-                                            <!-- <tfoot>
-                    <tr>
-                      <th>Rendering engine</th>
-                      <th>Browser</th>
-                      <th>Platform(s)</th>
-                      <th>Engine version</th>
-                    </tr>
-                  </tfoot>-->
+                                            </tbody>                                       
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
@@ -217,6 +201,8 @@ $asistance = findAllasistance();
     });
 </script>
 
+
+<script src="../assets/dist/js/pages/dashboard.js"></script>
 
 
 

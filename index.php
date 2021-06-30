@@ -1,6 +1,9 @@
 <?php include_once('includes/load.php');
+
+
+
 if ($session->isUserLoggedIn(true)) {
-  redirect('./pages/add', false);
+  redirect('./pages/dashboard', false);
 }
 
 if (isset($_POST['user']) && isset($_POST['password'])) {

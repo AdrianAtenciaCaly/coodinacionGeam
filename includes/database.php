@@ -18,7 +18,7 @@ class MySqli_DB
   public function db_connect()
   {
     $this->con = mysqli_connect(DB_HOST, DB_USER, DB_PASS);
-    $this->con->set_charset("utf8");
+    //$this->con->set_charset("utf8");
     if (!$this->con) {
       echo "
       <!DOCTYPE html>
@@ -133,7 +133,7 @@ class MySqli_DB
       $select_db = $this->con->select_db(DB_NAME);
       if (!$select_db) {
         die("Failed to Select Database" . mysqli_connect_error());
-        redirect('admin.php', false);
+  
       }
     }
   }

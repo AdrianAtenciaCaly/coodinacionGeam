@@ -3,15 +3,16 @@
     if (!$session->isUserLoggedIn(true)) {
       redirect('../index.php', false);
     }
+    $user = current_user();
     $numeroGrupo = countGroup();
     $numeroAsistencia = countAsistence();
+    $numeroGrupo = countGroup();
+    $AllGroup = findAllgroup()
     ?>
-
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__shake" src="../assets/dist/img/LOGO.png" alt="AdminLTELogo" height="60" width="60">
     </div>
-
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
@@ -32,8 +33,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="#" class="brand-link">
-     <img src="../assets/dist/img/abelmendoza.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-       <span class="brand-text font-weight-light">SGA-GEAM</span>
+        <img src="../assets/dist/img/abelmendoza.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">SGA-GEAM</span>
       </a>
       <!-- Sidebar -->
       <div class="sidebar">
@@ -43,7 +44,7 @@
             <img src="../assets/dist/img/abelmendozaC.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Coordinador</a>
+            <a href="#" class="d-block"><?php echo $user['tipo']; ?></a>
           </div>
         </div>
         <!-- SidebarSearch Form -->
@@ -71,7 +72,7 @@
               </a>
             </li>
             <li class="nav-item menu-open">
-              <a href="#" class="nav-link active">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-users-cog"></i>
                 <p>
                   Gestión coordinación
@@ -97,7 +98,7 @@
                   <a href="../pages/subject" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Asignatura</p>
-                   
+
                   </a>
                 </li>
               </ul>
@@ -127,13 +128,45 @@
 
               </ul>
             </li>
-            <li class="nav-header">Opciones de usuario</li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>
+                 Grupos Creados
+                  <i class="right fas fa-angle-left"></i>
+                  <span class="badge badge-primary right"><?php echo  $numeroGrupo['total']; ?></span>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+              <?php foreach ($AllGroup  as $AllGroup ) : 
+                $cont = countStudentsGroup($AllGroup['id_group']);
+                ?>
+                <li class="nav-item">
+            
+                  <a href="../pages/groupdetails.php?id_group=<?php echo $AllGroup['id_group'] ?>" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p><?php echo  $AllGroup['name_group'];?></p>
+                    <span class="badge badge-info right"><?php echo $cont['total']; ?></span>
+                  </a>
+                </li>
+                <?php endforeach; ?>
+
+              </ul>
+            </li>
+
+
+            <li class="nav-header">Opciones de usuario.</li>
             <li class="nav-item">
               <a href="../includes/sentences/logout.php" class="nav-link">
                 <i class="fas fa-sign-out-alt"></i>
                 <p>Cerrar sesión</p>
               </a>
             </li>
+            <li class="nav-header"></li>
+            <li class="nav-header"></li>
+            <li class="nav-header">Usuario: <?php echo $user['name']; ?></li>
+            <li class="nav-header">Tipo: <?php echo $user['tipo']; ?></li>
+            <li class="nav-header">Ubicacións: <?php echo $user['campus']; ?></li>
           </ul>
         </nav>
       </div>

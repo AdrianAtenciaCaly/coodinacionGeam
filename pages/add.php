@@ -255,25 +255,13 @@ $asistance = findAllasistance();
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label for="profesor">Profesor</label>
                         <select id="profesoradd" name="profesoradd" class="form-control select2" style="width: 100%;" required>
                           <option value="" selected disabled hidden>Seleccione una opción </option>
                           <?php foreach ($teachers as $teachers) : ?>
-                            <option value="<?php echo removeJunk($teachers['id_teacher']); ?>"><?php echo removeJunk($teachers['fullname_teacher']); ?></option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="asignatura">Asignatura</label>
-                        <select id="asignaturaadd" name="asignaturaadd" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <?php foreach ($subject as $subject) : ?>
-                            <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
+                            <option value="<?php echo removeJunk($teachers['id_teacher']); ?>"><?php echo removeJunk($teachers['fullname_teacher']. " -  ".$teachers['name_subject']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -357,6 +345,7 @@ $asistance = findAllasistance();
                       <th>Institución</th>
                       <th>Grupo</th>
                       <th>Evidencia</th>
+                      <th>Opciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -375,8 +364,13 @@ $asistance = findAllasistance();
                         <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
                         <td class="text-center">
                           <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
-                            <i class="fas fa-folder"></i>
-                            Ver </a>
+                            <i class="far fa-eye"></i> </a>
+                        </td>
+                        <td class="text-center">
+                          <a class="btn btn-info btn-sm btnEditar" href="#">
+                            <i class="far fa-edit"></i> </a>
+                          <a class="btn btn-danger btn-sm btnEliminar" href="#">
+                            <i class="far fa-trash-alt"></i> </a>
                         </td>
                       </tr>
                     <?php endforeach; ?>

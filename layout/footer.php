@@ -64,5 +64,6 @@
 <script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
 
 <script src="../assets/plugins/fullcalendar/main.js"></script>
-<script src="../assets/dist/js/pages/dashboard.js"></script>
 
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
