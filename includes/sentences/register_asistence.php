@@ -25,7 +25,7 @@ if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST[
     $extension = end($temp);
     $i = 0;
     $nombreFinal = time()  . '.' . $extension;
-    if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg'|| $extension == 'pdf') {
+    if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg'|| $extension == 'pdf'|| $extension == 'jpg') {
         if (move_uploaded_file($_FILES['evidenceadd']['tmp_name'], $carpeta . $nombreFinal)) {
             $user = current_user();
             $db->query("INSERT INTO assistance  VALUES(null,'" . $_POST['fechaadd'] . "',

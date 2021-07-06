@@ -133,7 +133,6 @@ class MySqli_DB
       $select_db = $this->con->select_db(DB_NAME);
       if (!$select_db) {
         die("Failed to Select Database" . mysqli_connect_error());
-  
       }
     }
   }
@@ -214,5 +213,5 @@ class MySqli_DB
     return $results;
   }
 }
-
+$pdo = new PDO("mysql:dbname=coordinacion;host DB_HOST", "root", "");
 $db = new MySqli_DB();

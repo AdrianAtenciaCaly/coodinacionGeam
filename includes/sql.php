@@ -196,11 +196,12 @@ function updateLastLogIn($user_id)
 function findAllTeachers()
 {
   global $db;
-  $sql  = " SELECT t.id_teacher,
+  $sql  = "SELECT t.id_teacher,
    t.names_teacher,
     t.surnames_teacher , 
     t.fullname_teacher ,
-     t.observations_teacher , 
+     t.observations_teacher ,
+     t.status, 
      s.name_subject FROM teacher  t INNER JOIN subject s  ON s.id_subject = t.subject_teacher  ORDER BY  id_teacher DESC";
   return find_by_sql($sql);
 }
@@ -208,7 +209,7 @@ function findAllTeachers()
 function findAllsubject()
 {
   global $db;
-  $sql  = " SELECT * FROM subject ORDER BY  id_subject DESC";
+  $sql  = "SELECT * FROM subject ORDER BY  id_subject DESC";
   return find_by_sql($sql);
 }
 
@@ -233,15 +234,55 @@ function findAllasistance()
   a.main_theme_assistance, 
   a.institution_assistance, 
   g.name_group, 
-  a.observations_assistance,
   a.evidence_assistance
   FROM assistance a INNER JOIN teacher t ON 
-  a.teacher_assistance=t.id_teacher INNER JOIN subject s ON 
+  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
   t.subject_teacher = s.id_subject INNER JOIN troop g ON 
-  a.group_assistance = g.id_group ORDER BY id_assistance DESC;";
+  a.group_assistance = g.id_group  ORDER BY  id_assistance DESC  ";
   return find_by_sql($sql);
 }
-
+function findAllasistancePdo()
+{
+  global $pdo;
+  $sql  =  $pdo->prepare("SELECT a.id_assistance, 
+  a.date_assistance, 
+  a.start_time_assistance,
+  a.end_time_assistance,
+  a.time_elapsed_assistance,
+  t.fullname_teacher,
+  s.name_subject, 
+  a.socialized_material_assistance, 
+  a.main_theme_assistance, 
+  a.institution_assistance, 
+  g.name_group, 
+  a.evidence_assistance
+  FROM assistance a INNER JOIN teacher t ON 
+  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
+  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
+  a.group_assistance = g.id_group  ORDER BY  id_assistance DESC");
+  return find_by_sql($sql);
+}
+function findAllasistanceLimit()
+{
+  global $db;
+  $sql  = "SELECT a.id_assistance, 
+  a.date_assistance, 
+  a.start_time_assistance,
+  a.end_time_assistance,
+  a.time_elapsed_assistance,
+  t.fullname_teacher,
+  s.name_subject, 
+  a.socialized_material_assistance, 
+  a.main_theme_assistance, 
+  a.institution_assistance, 
+  g.name_group, 
+  a.evidence_assistance
+  FROM assistance a INNER JOIN teacher t ON 
+  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
+  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
+  a.group_assistance = g.id_group LIMIT 100";
+  return find_by_sql($sql);
+}
 function findAllstudents()
 {
   global $db;
@@ -257,7 +298,7 @@ function findAllstudents()
 function findGroup($id)
 {
   global $db;
-  $sql = " SELECT * FROM troop  WHERE  id_group = '$id'";
+  $sql = " SELECT * FROM troop  WHERE  id_group = '$id' limit 1";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
@@ -306,7 +347,17 @@ function findAllstudentsById($id_group)
   $sql  = "SELECT s.id_students,
   s.identification_students,
   s.names_students,
-  g.name_group
-   FROM students  s INNER JOIN  troop g ON g.id_group = s.group_students WHERE g.id_group=".$id_group."";
+  g.name_group,
+  g.cod_group
+   FROM students  s INNER JOIN  troop g ON g.id_group = s.group_students WHERE g.id_group=" . $id_group . "";
   return find_by_sql($sql);
+}
+
+function findSubjectById($nameSubeject)
+{
+  global $db;
+  $sql  = "SELECT s.id_subject from teacher t INNER JOIN subject s 
+  ON s.id_subject = t.subject_teacher WHERE s.name_subject = '" . $nameSubeject . "' LIMIT 1";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
 }

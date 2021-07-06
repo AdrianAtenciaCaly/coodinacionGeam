@@ -5,7 +5,7 @@ if (!$session->isUserLoggedIn(true)) {
 $teachers = findAllTeachers();
 $subject = findAllsubject();
 $group = findAllgroup();
-$asistance = findAllasistanceLimit();
+$asistance = findAllasistance();
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +47,12 @@ $asistance = findAllasistanceLimit();
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!--    Datatables  -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -334,12 +340,12 @@ $asistance = findAllasistanceLimit();
               <!-- /.card-body -->
             </div>
 
-            <div class="card card-primary collapsed-card">
+            <div class="card card-primary ">
               <div class="card-header">
                 <h3 class="card-title">Lista de asistencias</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapso">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-minus"></i>
                   </button>
                 </div>
               </div>
@@ -355,7 +361,8 @@ $asistance = findAllasistanceLimit();
                         <tr>
                           <th>#</th>
                           <th>Fecha</th>
-                          <th>Inicio/Final</th>
+                          <th>Hora de inicio</th>
+                          <th>Hora final</th>
                           <th>Duracion de la clase</th>
                           <th>Docente</th>
                           <th>Asignatura</th>
@@ -364,34 +371,11 @@ $asistance = findAllasistanceLimit();
                           <th>Institución</th>
                           <th>Grupo</th>
                           <th>Evidencia</th>
-                          <th>Opciones</th>
+
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($asistance as $asistance) : ?>
-                          <tr>
-                            <td class="text-center"><?php echo countId(); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']) . " - " . removeJunk($asistance['end_time_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Hrs"; ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
-                            <td class="text-center">
-                              <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
-                                <i class="far fa-eye"></i> </a>
-                            </td>
-                            <td class="text-center">
-                              <a class="btn btn-info btn-sm btnEditar" href="#">
-                                <i class="far fa-edit"></i> </a>
-                              <a class="btn btn-danger btn-sm btnEliminar" href="#">
-                                <i class="far fa-trash-alt"></i> </a>
-                            </td>
-                          </tr>
-                        <?php endforeach; ?>
+
                       </tbody>
                       <!-- <tfoot>
                     <tr>
@@ -448,7 +432,29 @@ $asistance = findAllasistanceLimit();
 
   <?php include('../layout/footer.php'); ?>
 </body>
-
+<script>
+   $(document).ready(function() {
+          $('#example1').DataTable( {
+            "ajax":{
+                "url": "../includes/sentences/get_asistences.php",
+                "dataSrc":""
+            },
+            "columns":[
+                {"data": "id_assistance"},
+                {"data": "date_assistance"},
+                {"data": "start_time_assistance"},
+                {"data": "end_time_assistance"},
+                {"data": "time_elapsed_assistance"},
+                {"data": "fullname_teacher"},
+                {"data": "name_subject"},
+                {"data": "socialized_material_assistance"},
+                {"data": "main_theme_assistance"},
+                {"data": "institution_assistance"},
+                {"data": "name_group"}
+            ]  
+          });
+      });
+</script>
 
 <script>
   $(function() {
@@ -479,38 +485,14 @@ $asistance = findAllasistanceLimit();
     }
   }
 </script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<!--    Datatables-->
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
 <script>
-  $(function() {
-    $("#example1").DataTable({
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
-<script>
-  /* $(document).ready(function() {
-    $(".btnVer").click(function() {
-
-      idVer = $(this).data('id');
-      var evidencia = $(this).data('evidencia');
-
-      document.getElementById("visual").src = "../uploads/evidences/" + evidencia;
-      $("#idVer").val(idVer);
-    });
-  });*/
-
-
   function calculardiferencia() {
 
     var hora_final = $('#horafinaladd').val();

@@ -1,5 +1,1 @@
-<?php include_once('includes/load.php');
-$con = countStudentsGroup(1);
-echo  $con['total'];
-
-?>
+<input type="button" value="Cerrar ventana" onClick="self.close();" onKeyPress="self.close();" />

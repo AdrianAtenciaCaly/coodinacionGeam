@@ -1,16 +1,16 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Sistema de gestión académica  - Grupo Educativo Abel Mendoza, desarrollado por Adrián Atencia Caly </a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.0
-    </div>
-  </footer>
+  <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Sistema de gestión académica - Grupo Educativo Abel Mendoza, desarrollado por Adrián Atencia Caly </a>.</strong>
+  All rights reserved.
+  <div class="float-right d-none d-sm-inline-block">
+    <b>Version</b> 1.0
+  </div>
+</footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -64,6 +64,8 @@
 <script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
 
 <script src="../assets/plugins/fullcalendar/main.js"></script>
-
-
+<script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+<script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="../assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
