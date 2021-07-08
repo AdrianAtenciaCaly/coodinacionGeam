@@ -17,7 +17,7 @@ echo "evidencia ". $_FILES['evidenceadd']['name']."<br>";
 echo "hora de  inicio ".$_POST['horainicioadd']."<br>"; 
 echo "hora final ".$_POST['horafinaladd']."<br>"; 
 echo "tiempo transcurrido ".$_POST['horas_justificacion_real']."<br>"; */
-if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST['horafinaladd']) && isset($_POST['horas_justificacion_real']) && isset($_POST['profesoradd'])  && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd'])) {
+if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST['horafinaladd']) && isset($_POST['horas_justificacion_real']) && isset($_POST['profesoradd'])  && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd']) ) {
     $carpeta = "../../uploads/evidences/";
     $nombre = $_FILES['evidenceadd']['name'];
 
@@ -25,7 +25,7 @@ if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST[
     $extension = end($temp);
     $i = 0;
     $nombreFinal = time()  . '.' . $extension;
-    if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg'|| $extension == 'pdf') {
+    if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg'|| $extension == 'pdf'|| $extension == 'jpg') {
         if (move_uploaded_file($_FILES['evidenceadd']['tmp_name'], $carpeta . $nombreFinal)) {
             $user = current_user();
             $db->query("INSERT INTO assistance  VALUES(null,'" . $_POST['fechaadd'] . "',
@@ -33,9 +33,9 @@ if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST[
             '" . $_POST['horafinaladd'] . "',
             '" . $_POST['horas_justificacion_real'] . "',
             '" . $_POST['profesoradd'] . "',
-            '" . $_POST['materialsocializadoadd'] . "',
-            '" . $_POST['ejetematicoadd'] . "',
             '" . $_POST['institucionadd'] . "',
+            '" . $_POST['materialsocializadoadd'] . "',
+            '" . $_POST['ejetematicoadd'] . "',     
             '" . $_POST['grupoadd'] . "',
             '" . $_POST['observacionesadd'] . "',
             '" . $nombreFinal . "',

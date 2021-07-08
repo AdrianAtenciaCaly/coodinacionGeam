@@ -165,7 +165,7 @@ $groupAdd = findAllgroup();
                                                     <?php foreach ($groupAdd as $groupAdd) :
                                                     ?>
                                                         <option value="<?php echo removeJunk($groupAdd['id_group']);
-                                                                        ?>"><?php echo removeJunk($groupAdd['name_group']);
+                                                                        ?>"><?php echo removeJunk($groupAdd['name_group']). " - ". removeJunk($groupAdd['grade_group']."º");
                                                                             ?></option>
                                                     <?php endforeach;
                                                     ?>

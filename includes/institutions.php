@@ -3,7 +3,8 @@ if (!$session->isUserLoggedIn(true)) {
   redirect('../index', false);
 }
 
-$group = findAllgroup();
+$departamentos = findAllDepartaments();
+$institucion = findAllInstitutions();
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@ $group = findAllgroup();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Grupos | GEAM</title>
+  <title>Institución | GEAM</title>
   <link rel="icon" href="../assets/dist/img/favicon.ico">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -66,7 +67,7 @@ $group = findAllgroup();
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-                <li class="breadcrumb-item active">Docentes</li>
+                <li class="breadcrumb-item active">Institución</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -89,37 +90,36 @@ $group = findAllgroup();
                 </div>
               </div>
               <div class="card-body">
-                <form action="../includes/sentences/register_group.php" method="POST">
+                <form action="../includes/sentences/register_institutions.php" method="POST">
                   <div class="row">
-                    <div class="col-md-4">
+                  <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputProjectLeader">Identificador del grupo</label>
-                        <input type="text" id="idgrupo" name="idgrupo" value="<?php echo "G-" . date('is') . generarCodigo(6) ?>" class="form-control" readonly>
+                        <label for="institucion">Departamento</label>
+                        <select id="departamentoadd" name="departamentoadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione un departamento </option>
+                          <?php foreach ($departamentos as $departamentos) : ?>
+                            <option value="<?php echo removeJunk($departamentos['id_department']); ?>"><?php echo removeJunk($departamentos['name_department']); ?></option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
-
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputProjectLeader">Nombre del grupo </label>
-                        <input type="text" id="nombregrupo" name="nombregrupo" class="form-control" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <label for="institucion"> Municipio </label>
+                        <select id="municipioadd" name="municipioadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione un municipio </option>
+                        </select>
                       </div>
                     </div>
+                  
                   </div>
                   <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="inputStatus">Grado</label>
-                      <select id="gradogrupo" name="gradogrupo" class="form-control select2">
-                      <option value="" selected disabled hidden>Seleccione una opción</option>
-                        <option value="9">9º</option>
-                        <option value="10">10º</option>
-                        <option value="11">11º</option>
-                      </select>
-                    </div>
-                  </div>
                   <div class="form-group">
-                    <label for="inputProjectLeader">Observaciones</label>
-                    <textarea class="form-control" id="observacionesgrupo" name="observacionesgrupo" rows="3" placeholder="Observaciones..."></textarea>
+                        <label for="inputProjectLeader">Nombre de la institución</label>
+                        <input type="text" id="nombreinstitucion" name="nombreinstitucion" class="form-control" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                      </div>
                   </div>
+                  
 
                   <br>
                   <div class="form-group">
@@ -142,19 +142,17 @@ $group = findAllgroup();
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Codigo del grupo</th>
+                      <th>Departament / Municipio</th>
                       <th>Nombre</th>
-                      <th>Grado</th>
-
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($group as $group) : ?>
+                    <?php foreach ($institucion as $institucion) : ?>
                       <tr>
                         <td class="text-center"><?php echo countId(); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($group['cod_group']); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($group['name_group']); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($group['grade_group'])."º"; ?></td>
+                        <td class="text-center"> <?php echo removeJunk($institucion['name_department'])." / " . removeJunk($institucion['name_municipality']); ?></td>
+                        <td class="text-center"> <?php echo removeJunk($institucion['name_colleges']); ?></td>
+                 
                       </tr>
                     <?php endforeach; ?>
 
@@ -178,7 +176,19 @@ $group = findAllgroup();
 
     <?php include('../layout/footer.php'); ?>
 </body>
+<script>
+  $(document).ready(function() {
+    console.log("ws");
 
+    $("#departamentoadd").change(function() {
+      $.get("../includes/sentences/get_municipality.php", "departamentoadd=" + $("#departamentoadd").val(), function(data) {
+        $("#municipioadd").html(data);
+        console.log(data);
+      });
+    });
+  
+  });
+</script>
 <script>
 
   $(function() {

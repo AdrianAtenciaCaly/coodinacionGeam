@@ -5,12 +5,13 @@ if (!$session->isUserLoggedIn(true)) {
 $numeroAsistencia = countAsistence();
 $numeroProfesores = countTeacher();
 $numeroGrupo = countGroup();
-$asistance = findAllasistance();
-?>
+$asistance = findAllasistanceLimit();
 
+$numeroInstituciones = countInstitutions();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,13 +79,12 @@ $asistance = findAllasistance();
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3><?php echo $numeroAsistencia['total']; ?></h3>
-
                                     <p>Asistencias registradas</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-clipboard-list"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Ir a asistencia <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="add" class="small-box-footer">Ir a asistencia <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -98,11 +98,11 @@ $asistance = findAllasistance();
                                 <div class="icon">
                                     <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Ir a profesores <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="teachers" class="small-box-footer">Ir a profesores <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
-                        <div class="col-lg-12 col-12">
+                        <div class="col-lg-6 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3><?php echo $numeroGrupo['total']; ?></h3>
@@ -111,7 +111,21 @@ $asistance = findAllasistance();
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Ir a grupos<i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="group" class="small-box-footer">Ir a grupos<i class="fas fa-arrow-circle-right"></i></a>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-6">
+                            <div class="small-box bg-lightblue">
+                                <div class="inner">
+                                    <h3><?php echo $numeroInstituciones['total']; ?></h3>
+                                    <p>Colegios registrados</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <a href="institutions" class="small-box-footer">Ir a colegios<i class="fas fa-arrow-circle-right"></i></a>
+
                             </div>
                         </div>
                         <!-- ./col -->
@@ -124,50 +138,60 @@ $asistance = findAllasistance();
                         <!-- Left col -->
                         <section class="col-lg-12 connectedSortable">
                             <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
+
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Fecha</th>
+                                                <th>Hora de inicio</th>
+                                                <th>Hora final</th>
+                                                <th>Duracion de la clase</th>
+                                                <th>Docente</th>
+                                                <th>Asignatura</th>
+                                                <th>Material socializado</th>
+                                                <th>Eje temático</th>
+                                                <th>Institución</th>
+                                                <th>Grupo</th>
+                                                <th>Evidencia</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($asistance as $asistance) : ?>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Fecha</th>
-                                                    <th>Hora de inicio</th>
-                                                    <th>Hora final</th>
-                                                    <th>Duracion de la clase</th>
-                                                    <th>Docente</th>
-                                                    <th>Asignatura</th>
-                                                    <th>Material socializado</th>
-                                                    <th>Eje temático</th>
-                                                    <th>Institución</th>
-                                                    <th>Grupo</th>                                                  
+                                                    <td class="text-center"><?php echo countId(); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['end_time_assistance']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Horas"; ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
+
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_colleges']); ?></td>
+
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
+
+
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
+                                                            <i class="far fa-eye"></i> </a>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($asistance as $asistance) : ?>
-                                                    <tr>
-                                                        <td class="text-center"><?php echo countId(); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['end_time_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Horas"; ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
-                                                        <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>                                                   
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>                                       
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </section>
                         <!-- /.Left col -->
                         <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                        <section class="col-lg-5 connectedSortable">
+                        <section class="col-lg-12 connectedSortable">
+
                         </section>
                         <!-- right col -->
                     </div>
@@ -176,7 +200,8 @@ $asistance = findAllasistance();
             </section>
         </div>
         <!-- /.content-wrapper -->
-        <?php include('../layout/footer.php'); ?>
+    </div>
+    <?php include('../layout/footer.php'); ?>
 </body>
 
 
@@ -188,7 +213,6 @@ $asistance = findAllasistance();
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
         $('#example2').DataTable({
             "paging": true,
             "lengthChange": false,

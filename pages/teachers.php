@@ -3,8 +3,9 @@ if (!$session->isUserLoggedIn(true)) {
   redirect('../index', false);
 }
 $teachers = findAllTeachers();
+$teachersE = findAllTeachers();
 $subject = findAllsubject();
-$subjectE= findAllsubject();
+$subjectE = findAllsubject();
 
 ?>
 
@@ -46,6 +47,7 @@ $subjectE= findAllsubject();
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
 </head>
 
 
@@ -115,11 +117,22 @@ $subjectE= findAllsubject();
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="asiganature">Asiganatura impartida</label>
-                      <select id="asignaturedocente" name="asignaturedocente" class="form-control select2" required>
+                      <select id="asignaturedocente" name="asignaturedocente" class="form-control select2" style="width: 100%;" required>
                         <option value="" selected disabled hidden>Seleccione una opción </option>
                         <?php foreach ($subject as $subject) : ?>
                           <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
                         <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="asiganature">Estado del docente</label>
+                      <select id="statusdocente" name="statusdocente" class="form-control select2" style="width: 100%;" required>
+                        <option value="" selected disabled hidden>Seleccione una opción </option>
+
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="INACTIVE">INACTIVE</option>
                       </select>
                     </div>
                   </div>
@@ -152,6 +165,7 @@ $subjectE= findAllsubject();
                       <th>Nombres</th>
                       <th>Apellidos</th>
                       <th>Asignatura</th>
+                      <th>Status</th>
                       <th>Opciones</th>
                     </tr>
                   </thead>
@@ -162,11 +176,34 @@ $subjectE= findAllsubject();
                         <td class="text-center"> <?php echo removeJunk($teachers['names_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['surnames_teacher']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($teachers['name_subject']); ?></td>
+
                         <td class="text-center">
-                          <button title="Editar" class="btn btn-info btn-sm btnEditar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-apellidos="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-observaciones="<?php echo $teachers['observations_teacher']; ?>" data-toggle="modal" data-target="#modalEditar">
-                            <i class="far fa-edit"></i> </button>
-                          <!-- <button title="Eliminar" class="btn btn-danger btn-sm btnEliminar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-nombrecompleto="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-toggle="modal" data-target="#modalEliminar">
-                            <i class="far fa-trash-alt"></i> </button>-->
+                        
+                              <?php
+                              if ($teachers['status'] == "INACTIVE") {
+                              ?>
+
+                               
+                                <span class="badge badge-danger">INACTIVO</span>
+                              <?php
+                              } else {
+                              ?>
+                                
+                                <span class="badge badge-success">ACTIVO</span>
+
+                                
+                              <?php
+                              }
+                              ?>
+                            
+                        </td>
+                        <td class="text-center">
+                          <div class="card card-secondary">
+                            <div class="card-body">
+                              <button title="Editar" class="btn btn-info btn-sm btnEditar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-apellidos="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-status="<?php echo $teachers['status']; ?>" data-toggle="modal" data-target="#modalEditar">
+                                <i class="far fa-edit"></i> </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -214,7 +251,7 @@ $subjectE= findAllsubject();
                 </div>
               </div>
               <div class="card-body">
-                <form action="../includes/sentences/update_teacher.php" method="POST" id="form_teacher">
+                <form action="../includes/sentences/update_teacher.php" method="POST" id="form_teacher_edit">
                   <input type="hidden" id="iddocenteeditar" name="iddocenteeditar" required>
                   <div class="row">
                     <div class="col-md-6">
@@ -236,24 +273,57 @@ $subjectE= findAllsubject();
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="asiganature">Asiganatura impartida</label>
-                      <select id="asignaturedocenteeditar" name="asignaturedocenteeditar" class="form-control select2" required>
-                        <option value="" selected disabled hidden>Seleccione una opción </option>
-                        <?php foreach ($subjectE as $subjectE) : ?>
-                          <option value="<?php echo removeJunk($subjectE['id_subject']); ?>"><?php echo removeJunk($subjectE['name_subject']); ?></option>
-                        <?php endforeach; ?>
-                      </select>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="asiganature">Asiganatura impartida</label>
+
+                        <select id="asignaturedocenteeditar" name="asignaturedocenteeditar" class="form-control select2">
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <?php foreach ($subjectE as $subjectE) : ?>
+                            <option value="<?php echo removeJunk($subjectE['id_subject']); ?>"><?php echo removeJunk($subjectE['name_subject']); ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="asiganature">Asiganatura Actual</label>
+                        <input type="text" id="asignaturaimpartida" name="asignaturaimpartida" class="form-control" readonly>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="asiganature">Estado (ACTIVE/INACTIVE)</label>
+                        <select id="estadoeditar" name="estadoeditar" class="form-control select2">
+                          <option value="" selected disabled hidden>Seleccione una opción </option>
+                          <option value="ACTIVE">ACTIVE</option>
+                          <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="estado">Estado Actual</label>
+                        <input type="text" id="estadoactual" name="estadoactual" class="form-control" readonly>
+                      </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <label for="observaciones">Observaciones</label>
                     <textarea class="form-control" id="observacionesdocenteeditar" name="observacionesdocenteeditar" rows="3" placeholder="Observaciones..."></textarea>
                   </div>
-                  <br>
-                  <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-success float-right">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <br>
+                      <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-success float-right">
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -305,20 +375,7 @@ $subjectE= findAllsubject();
     })
   })
 </script>
-<script>
-  function fileValidation(nombre) {
-    var fileInput = document.getElementById('evidenceFile');
-    var filePath = fileInput.value;
-    var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
-    if (!allowedExtensions.exec(filePath)) {
-      alert('Solo se permiten archivos con extensión .jpg .docx');
-      fileInput.value = '';
-      return false;
-    } else {
-      document.getElementById('evidenceFileLabel').innerHTML = nombre;
-    }
-  }
-</script>
+
 <script>
   $(function() {
     $("#example1").DataTable({
@@ -338,7 +395,21 @@ $subjectE= findAllsubject();
     });
   });
 </script>
+<script>
+  $(function() {
+    $(document).on('change', '#asignaturedocenteeditar', function() { //detectamos el evento change
+      var value = $("#asignaturedocenteeditar option:selected").text();
+      $('#asignaturaimpartida').val(value); //le agregamos el valor al input (notese que el input debe tener un ID para que le caiga el valor)
+    });
+  });
 
+  $(function() {
+    $(document).on('change', '#estadoeditar', function() { //detectamos el evento change
+      var value = $("#estadoeditar option:selected").text();
+      $('#estadoactual').val(value); //le agregamos el valor al input (notese que el input debe tener un ID para que le caiga el valor)
+    });
+  });
+</script>
 <script>
   function actualizarnombreCompleto() {
     let nombres = document.getElementById("nombredocente").value;
@@ -365,9 +436,7 @@ $subjectE= findAllsubject();
       var apellidos = $(this).data('apellidos');
       var asignatura = $(this).data('asiganatura');
       var observaciones = $(this).data('observaciones');
-
     });
-
     $(".eliminar").click(function() {
       $.ajax({
         url: '../includes/sqlinsert/delete_product.php',
@@ -376,30 +445,25 @@ $subjectE= findAllsubject();
           id: idEliminar
         }
       }).done(function(res) {
-
         $(fila).fadeOut(1000);
       });
-
     });
-
     //Editar
     $(".btnEditar").click(function() {
-
       idEditar = $(this).data('id');
       var nombres = $(this).data('nombres');
       var apellidos = $(this).data('apellidos');
       var asignatura = $(this).data('asiganatura');
       var observaciones = $(this).data('observaciones');
+      var status = $(this).data('status');
       $("#iddocenteeditar").val(idEditar);
       $("#nombredocenteeditar").val(nombres);
       $("#apellidodocenteeditar").val(apellidos);
       $("#nombrecompletoeditar").val(nombres + " " + apellidos);
       $("#observacionesdocenteeditar").val(observaciones);
-
+      $("#asignaturaimpartida").val(asignatura);
+      $("#estadoactual").val(status);
     });
-
-
-
   });
 </script>
 

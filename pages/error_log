@@ -1,0 +1,35 @@
+[06-Jul-2021 14:16:21 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php:216
+Stack trace:
+#0 /home3/grupogeam/public_html/coordinacionGeam/includes/database.php(216): PDO->__construct('mysql:dbname=co...', 'root', '')
+#1 /home3/grupogeam/public_html/coordinacionGeam/includes/load.php(20): require_once('/home3/grupogea...')
+#2 /home3/grupogeam/public_html/coordinacionGeam/pages/dashboard.php(1): include_once('/home3/grupogea...')
+#3 {main}
+  thrown in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php on line 216
+[06-Jul-2021 14:17:51 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php:216
+Stack trace:
+#0 /home3/grupogeam/public_html/coordinacionGeam/includes/database.php(216): PDO->__construct('mysql:dbname=co...', 'root', '')
+#1 /home3/grupogeam/public_html/coordinacionGeam/includes/load.php(20): require_once('/home3/grupogea...')
+#2 /home3/grupogeam/public_html/coordinacionGeam/pages/dashboard.php(1): include_once('/home3/grupogea...')
+#3 {main}
+  thrown in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php on line 216
+[06-Jul-2021 14:18:42 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php:216
+Stack trace:
+#0 /home3/grupogeam/public_html/coordinacionGeam/includes/database.php(216): PDO->__construct('mysql:dbname=co...', 'root', '')
+#1 /home3/grupogeam/public_html/coordinacionGeam/includes/load.php(20): require_once('/home3/grupogea...')
+#2 /home3/grupogeam/public_html/coordinacionGeam/pages/dashboard.php(1): include_once('/home3/grupogea...')
+#3 {main}
+  thrown in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php on line 216
+[06-Jul-2021 14:19:08 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php:216
+Stack trace:
+#0 /home3/grupogeam/public_html/coordinacionGeam/includes/database.php(216): PDO->__construct('mysql:dbname=co...', 'root', '')
+#1 /home3/grupogeam/public_html/coordinacionGeam/includes/load.php(20): require_once('/home3/grupogea...')
+#2 /home3/grupogeam/public_html/coordinacionGeam/pages/dashboard.php(1): include_once('/home3/grupogea...')
+#3 {main}
+  thrown in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php on line 216
+[06-Jul-2021 14:21:02 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php:216
+Stack trace:
+#0 /home3/grupogeam/public_html/coordinacionGeam/includes/database.php(216): PDO->__construct('mysql:dbname=co...', 'root', '')
+#1 /home3/grupogeam/public_html/coordinacionGeam/includes/load.php(20): require_once('/home3/grupogea...')
+#2 /home3/grupogeam/public_html/coordinacionGeam/pages/dashboard.php(1): include_once('/home3/grupogea...')
+#3 {main}
+  thrown in /home3/grupogeam/public_html/coordinacionGeam/includes/database.php on line 216

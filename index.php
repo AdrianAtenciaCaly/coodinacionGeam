@@ -7,6 +7,9 @@ if ($session->isUserLoggedIn(true)) {
 }
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
+
+
+
   $req_fields = array('user', 'password');
   validate_fields($req_fields);
   $username = removeJunk($_POST['user']);
@@ -64,9 +67,12 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
       <div class="card-body">
         <p class="login-box-msg">Iniciar sesión</p>
 
-        <form action="index.php" method="post">
+        <form action="index" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" title="Usuario">
+            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" 
+            value="<?php if(isset($_POST['user'])) {
+            echo $_POST['user'];
+            } ?>" title="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -98,10 +104,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             </div>
             <!-- /.col -->
           </div>
-        </form>
-        <?php
-
-        ?>
+        </form>     
       </div>
     </div>
   </div>
@@ -121,8 +124,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
   <script src="assets/plugins/sweetalert2/sweetalert2.min.js"></script>
   <!-- Toastr -->
   <script src="assets/plugins/toastr/toastr.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="assets/dist/js/adminlte.min.js"></script>
+
   <script>
     $(document).ready(function() {
       $('#remember').click(function() {

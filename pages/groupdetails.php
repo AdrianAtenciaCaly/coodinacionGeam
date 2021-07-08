@@ -10,7 +10,6 @@ $group = findGroup($idGrupo);
 $studentsxgroup = findAllstudentsById($idGrupo);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +38,6 @@ $studentsxgroup = findAllstudentsById($idGrupo);
   <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
-
   <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Theme style -->
@@ -51,14 +49,9 @@ $studentsxgroup = findAllstudentsById($idGrupo);
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 
-
 <body class="hold-transition sidebar-mini layout-fixed">
-
   <div class="wrapper">
-
-
     <?php include('../layout/nav.php'); ?>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -77,8 +70,6 @@ $studentsxgroup = findAllstudentsById($idGrupo);
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
-
-
       <section class="content">
         <div class="row">
           <div class="col-md-12">
@@ -93,10 +84,9 @@ $studentsxgroup = findAllstudentsById($idGrupo);
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Codigo del grupo</th>
-                      <th>Nombre</th>
-                      <th>Grado</th>
-
+                      <th>Identificación Estudiante</th>
+                      <th>Nombres</th>
+                      <th>Grupo</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -105,7 +95,7 @@ $studentsxgroup = findAllstudentsById($idGrupo);
                         <td class="text-center"> <?php echo countId(); ?></td>
                         <td class="text-center"> <?php echo removeJunk($studentsxgroup['identification_students']); ?></td>
                         <td class="text-center"> <?php echo removeJunk($studentsxgroup['names_students']); ?></td>
-                        <td class="text-center"> <?php echo removeJunk($studentsxgroup['name_group']); ?></td>
+                        <td class="text-center" title="<?php echo removeJunk($studentsxgroup['cod_group']); ?>"> <?php echo removeJunk($studentsxgroup['name_group']); ?></td>
                       </tr>
                     <?php endforeach; ?>
                 </table>
@@ -114,20 +104,12 @@ $studentsxgroup = findAllstudentsById($idGrupo);
             </div>
             <!-- /.card -->
           </div>
-
         </div>
-
       </section>
-
-
     </div>
     <!-- /.content-wrapper -->
-
-
     <?php include('../layout/footer.php'); ?>
 </body>
-
-
 <script>
   $(function() {
     //Initialize Select2 Elements
