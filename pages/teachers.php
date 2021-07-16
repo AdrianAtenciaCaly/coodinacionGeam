@@ -1,7 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-  redirect('../index', false);
-}
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 $teachers = findAllTeachers();
 $teachersE = findAllTeachers();
 $subject = findAllsubject();
@@ -143,7 +147,9 @@ $subjectE = findAllsubject();
 
                   <br>
                   <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-success float-right">
+                  <button type="submit" class="btn btn-success float-right" >
+                    <i class="fas fa-save"> Guardar</i>
+                  </button>
                   </div>
 
 
@@ -178,32 +184,31 @@ $subjectE = findAllsubject();
                         <td class="text-center"> <?php echo removeJunk($teachers['name_subject']); ?></td>
 
                         <td class="text-center">
-                        
-                              <?php
-                              if ($teachers['status'] == "INACTIVE") {
-                              ?>
 
-                               
-                                <span class="badge badge-danger">INACTIVO</span>
-                              <?php
-                              } else {
-                              ?>
-                                
-                                <span class="badge badge-success">ACTIVO</span>
+                          <?php
+                          if ($teachers['status'] == "INACTIVE") {
+                          ?>
 
-                                
-                              <?php
-                              }
-                              ?>
-                            
+                            <span class="badge badge-danger">INACTIVO</span>
+                          <?php
+                          } else {
+                          ?>
+
+                            <span class="badge badge-success">ACTIVO</span>
+                          <?php
+                          }
+                          ?>
+
                         </td>
                         <td class="text-center">
                           <div class="card card-secondary">
                             <div class="card-body">
-                              <button title="Editar" class="btn btn-info btn-sm btnEditar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-apellidos="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-status="<?php echo $teachers['status']; ?>" data-toggle="modal" data-target="#modalEditar">
+                              <button title="Editar" class="btn btn-primary btn-sm btnEditar" data-id="<?php echo $teachers['id_teacher']; ?>" data-nombres="<?php echo $teachers['names_teacher']; ?>" data-apellidos="<?php echo $teachers['surnames_teacher']; ?>" data-asiganatura="<?php echo $teachers['name_subject']; ?>" data-status="<?php echo $teachers['status']; ?>" data-toggle="modal" data-target="#modalEditar">
                                 <i class="far fa-edit"></i> </button>
                             </div>
                           </div>
+
+                          
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -321,7 +326,9 @@ $subjectE = findAllsubject();
                     <div class="col-md-12">
                       <br>
                       <div class="form-group">
-                        <input type="submit" value="Guardar" class="btn btn-success float-right">
+                        <button type="submit" class="btn btn-success float-right">
+                          <i class="fas fa-save"> Actualizar información</i>
+                        </button>
                       </div>
                     </div>
                   </div>

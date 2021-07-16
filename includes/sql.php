@@ -19,12 +19,6 @@ function verificarConexionBD()
   }
 }
 
-/**
- * función para buscar todas las filas de la tabla de base de datos por nombre de tabla
- *
- * @return   
- * @param string $table tabla a buscar 
- */
 function find_all($table)
 {
   global $db;
@@ -33,12 +27,6 @@ function find_all($table)
   }
 }
 
-/**
- * Función para realizar consultas
- *
- * @return   result_set   resultado de la consulta 
- * @param string $sql a ejecutar
- */
 function find_by_sql($sql)
 {
   global $db;
@@ -47,12 +35,6 @@ function find_by_sql($sql)
   return $result_set;
 }
 
-/**
- * Función para buscar datos de la tabla por id
- *
- * @return   result   resultado de la consulta 
- * @param string $table  la tabla a buscar, $id id a buscar
- */
 function find_by_id($table, $id)
 {
   global $db;
@@ -66,12 +48,6 @@ function find_by_id($table, $id)
   }
 }
 
-/**
- * Función para buscar datos de la tabla por id de usuario 
- *
- * @return   result   resultado de la consulta
- * @param string $table  la tabla a buscar, $id id a buscar
- */
 function find_by_id_user($table, $id)
 {
   global $db;
@@ -85,13 +61,6 @@ function find_by_id_user($table, $id)
   }
 }
 
-
-/**
- * Función para buscar datos de la tabla por id de caja 
- *
- * @return   boolean true si se elimina o false si no se encuentra la id
- * @param string $table  la tabla a buscar, $id id a buscar
- */
 function delete_by_id($table, $id)
 {
   global $db;
@@ -104,11 +73,6 @@ function delete_by_id($table, $id)
   }
 }
 
-/**
- * Función para determinar si la tabla existe 
- * @return boolean true si existe o false si no
- * @param string $table  la tabla a buscar. 
- */
 function tableExists($table)
 {
   global $db;
@@ -120,17 +84,12 @@ function tableExists($table)
       return false;
   }
 }
-/**
- * Función para validar inicio de session
- * @return $user  si es valido o falso si no 
- * @param string $username , $password 
- */
+
 function authenticate($username = '', $password = '')
 {
   global $db;
   $username = $db->escape($username);
   $password = $db->escape($password);
-  // $sql  = sprintf("SELECT id,username,password,user_level FROM users WHERE username ='%s' LIMIT 1", $username);
   $sql  = sprintf("SELECT id,iduser,password FROM users WHERE iduser ='%s' LIMIT 1", $username);
   $result = $db->query($sql);
   if ($db->num_rows($result)) {
@@ -143,11 +102,6 @@ function authenticate($username = '', $password = '')
   return false;
 }
 
-/**
- * Función para validar si el usuario es administrado o secretaria
- *  @return result 
- * @param string $require_level
- */
 function page_require_tipo($require_level)
 {
   global $session;
@@ -157,30 +111,18 @@ function page_require_tipo($require_level)
   return ($db->fetch_assoc($result));
 }
 
-
-/**
- * Función para econtrar  el usuario de inicio de sesión actual por ID de sesión
- *  @return current_user 
- * 
- */
 function current_user()
 {
   static $current_user;
   global $db;
   if (!$current_user) {
-    if (isset($_SESSION['user_id'])) :
-      $user_id = intval($_SESSION['user_id']);
+    if (isset($_SESSION['user_idgeam'])) :
+      $user_id = intval($_SESSION['user_idgeam']);
       $current_user = find_by_id('users', $user_id);
     endif;
   }
   return $current_user;
 }
-
-/**
- * Función para actualizar la fecha y hora de inicio de session.
- *  @return boolean true o false 
- * @param string $user_id
- */
 
 function updateLastLogIn($user_id)
 {
@@ -212,8 +154,6 @@ function findAllsubject()
   $sql  = "SELECT * FROM subject ORDER BY  id_subject DESC";
   return find_by_sql($sql);
 }
-
-
 function findAllgroup()
 {
   global $db;
@@ -225,67 +165,77 @@ function findAllasistance()
   global $db;
   $sql  = "SELECT a.id_assistance, 
   a.date_assistance, 
+  s.name_subject,
   a.start_time_assistance,
   a.end_time_assistance,
   a.time_elapsed_assistance,
   c.name_colleges,
-  t.fullname_teacher,
-  s.name_subject, 
   a.socialized_material_assistance, 
+  a.number_assistants,
   a.main_theme_assistance, 
-  g.name_group, 
-  a.evidence_assistance
-  FROM assistance a INNER JOIN teacher t ON 
-  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
-  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
-  a.group_assistance = g.id_group INNER JOIN colleges c ON  c.id_colleges = a.id_colleges ORDER BY  id_assistance DESC  ";
+  a.evidence_assistance,
+	l.title,
+  l.start,
+  l.teacher_lessons,
+  l.namegroup_lessons,
+  a.observations_assistance
+  FROM assistance a INNER JOIN colleges c ON  c.id_colleges = a.id_colleges 
+  INNER JOIN subject s ON  s.id_subject = a.id_subject 
+  INNER JOIN lessons l ON  l.id_lessons = a.id_class
+  ORDER BY  id_assistance DESC";
   return find_by_sql($sql);
 }
-function findAllasistancePdo()
+function findAllasistanceLimit1000()
 {
-  global $pdo;
-  $sql  =  $pdo->prepare("SELECT a.id_assistance, 
-  a.date_assistance, 
-  a.start_time_assistance,
-  a.end_time_assistance,
-  a.time_elapsed_assistance,
-  t.fullname_teacher,
-  s.name_subject, 
-  a.socialized_material_assistance, 
-  a.main_theme_assistance, 
-  a.institution_assistance, 
-  g.name_group, 
-  a.evidence_assistance
-  FROM assistance a INNER JOIN teacher t ON 
-  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
-
-  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
-  a.group_assistance = g.id_group  ORDER BY  id_assistance DESC");
+  global $db;
+  $sql  = "SELECT a.id_assistance, 
+  s.name_subject,
+    a.date_assistance, 
+    a.start_time_assistance,
+    a.end_time_assistance,
+    a.time_elapsed_assistance,
+    c.name_colleges,
+    a.socialized_material_assistance, 
+    a.number_assistants,
+    a.main_theme_assistance, 
+    a.evidence_assistance,
+    l.title,
+    l.start,
+    l.teacher_lessons,
+    l.namegroup_lessons,
+    a.observations_assistance
+  
+    FROM assistance a INNER JOIN colleges c ON  c.id_colleges = a.id_colleges 
+    INNER JOIN subject s ON  s.id_subject = a.id_subject 
+    INNER JOIN lessons l ON  l.id_lessons = a.id_class
+    ORDER BY  id_assistance DESC LIMIT 1000";
   return find_by_sql($sql);
 }
+
 function findAllasistanceLimit()
 {
   global $db;
   $sql  = "SELECT a.id_assistance, 
   a.date_assistance, 
   a.start_time_assistance,
+  s.name_subject,
   a.end_time_assistance,
   a.time_elapsed_assistance,
   c.name_colleges,
-  t.fullname_teacher,
-  s.name_subject, 
   a.socialized_material_assistance, 
+  a.number_assistants,
   a.main_theme_assistance, 
-  g.name_group, 
-  a.evidence_assistance
-  FROM assistance a INNER JOIN teacher t ON 
-  a.teacher_assistance= t.id_teacher INNER JOIN subject s ON 
-  t.subject_teacher = s.id_subject INNER JOIN troop g ON 
-  a.group_assistance = g.id_group INNER JOIN colleges c ON  c.id_colleges = a.id_colleges LIMIT 100";
-
+  a.evidence_assistance,
+	l.title,
+l.teacher_lessons,
+l.namegroup_lessons,
+  a.observations_assistance
+  FROM assistance a INNER JOIN colleges c ON  c.id_colleges = a.id_colleges 
+INNER JOIN subject s ON  s.id_subject = a.id_subject 
+ INNER JOIN lessons l ON  l.id_lessons = a.id_class
+ORDER BY  id_assistance DESC LIMIT 100";
   return find_by_sql($sql);
 }
-
 
 function findAllstudents()
 {
@@ -359,13 +309,13 @@ function findAllstudentsById($id_group)
 
 function findSubjectById($nameSubeject)
 {
+
   global $db;
-  $sql  = "SELECT s.id_subject from teacher t INNER JOIN subject s 
-  ON s.id_subject = t.subject_teacher WHERE s.name_subject = '" . $nameSubeject . "' LIMIT 1";
+  $sql  = "SELECT id_subject from subject 
+  WHERE name_subject = '" . $nameSubeject . "' LIMIT 1";
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
-
 
 function findAllDepartaments()
 {
@@ -390,4 +340,33 @@ function countInstitutions()
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
+function findAllClass()
+{
+  global $pdo;
+  $sql  = "SELECT id_lessons,title,start,end,description,teacher_lessons,namegroup_lessons FROM lessons ORDER BY id_lessons desc";
+  return find_by_sql($sql);
+}
+function countClass()
+{
+  global $db;
+  $sql  = "SELECT COUNT(*) as total from lessons limit 1";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
 
+function findLessonsId($id_lessons)
+{
+
+  global $db;
+  $sql  = "SELECT * FROM lessons WHERE id_lessons =  '" . $id_lessons . "' LIMIT 1";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}
+
+function findIdTeacher($name)
+{
+  global $db;
+  $sql  = "SELECT id_teacher FROM teacher WHERE fullname_teacher ='" . $name . "' limit 1";
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}

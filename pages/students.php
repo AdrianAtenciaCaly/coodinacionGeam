@@ -1,7 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-    redirect('../index.php', false);
-}
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 $students = findAllstudents();
 $group = findAllgroup();
 $groupEdit = findAllgroup();
@@ -92,7 +96,7 @@ $groupAdd = findAllgroup();
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                    <table id="example1" class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>

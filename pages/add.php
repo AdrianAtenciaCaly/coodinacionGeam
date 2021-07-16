@@ -1,18 +1,18 @@
 <?php include_once('../includes/load.php');
+$user = current_user();
 if (!$session->isUserLoggedIn(true)) {
-  redirect('../index.php', false);
+  redirect('../index', false);
+}
+if ($user['tipo'] == "Docente") {
+  redirect('./lessonsTeachers', false);
 }
 $teachers = findAllTeachers();
 $subject = findAllsubject();
 $group = findAllgroup();
-
-$asistance = findAllasistance();
+$asistance = findAllasistanceLimit1000();
 $departamentos = findAllDepartaments();
-
-$asistance = findAllasistanceLimit();
-
+$clases = findAllClass();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,35 +52,33 @@ $asistance = findAllasistanceLimit();
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/dist/css/bootstrap-clockpicker.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-
   <div class="wrapper">
     <?php include('../layout/nav.php'); ?>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
               <h1 class="m-0"></h1>
-            </div><!-- /.col -->
+            </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
                 <li class="breadcrumb-item active">Asistencia</li>
               </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+            </div>
+          </div>
+        </div>
       </div>
       <section class="content">
         <div class="row">
           <div class="col-md-12">
             <?php echo displayMSG($msg); ?>
-            <div class="card card-primary ">
+            <div class="card card-navy ">
               <div class="card-header">
                 <h3 class="card-title">Registrar asistencia</h3>
                 <div class="card-tools">
@@ -101,9 +99,8 @@ $asistance = findAllasistanceLimit();
                     <div class="col-md-3">
                       <div class="form-group">
                         <label for="horainicio">Hora de inicio</label>
-                        <select id="horainicioadd" name="horainicioadd" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <option value="07:00">07 : 00 a.m.</option>
+                        <select id="horainicioadd" name="horainicioadd" class="form-control select2" style="width: 100%;" required>>
+                          <option value="07:00" selected>07 : 00 a.m.</option>
                           <option value="07:15">07 : 15 a.m.</option>
                           <option value="07:30">07 : 30 a.m.</option>
                           <option value="07:45">07 : 45 a.m.</option>
@@ -162,7 +159,6 @@ $asistance = findAllasistanceLimit();
                       <div class="form-group">
                         <label for="horafinal">Hora de final</label>
                         <select id="horafinaladd" name="horafinaladd" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
                           <option value="07:00">07 : 00 a.m.</option>
                           <option value="07:15">07 : 15 a.m.</option>
                           <option value="07:30">07 : 30 a.m.</option>
@@ -175,7 +171,7 @@ $asistance = findAllasistanceLimit();
                           <option value="09:15">09 : 15 a.m.</option>
                           <option value="09:30">09 : 30 a.m.</option>
                           <option value="09:45">09 : 45 a.m.</option>
-                          <option value="10:00">10 : 00 a.m.</option>
+                          <option value="10:00" selected>10 : 00 a.m.</option>
                           <option value="10:15">10 : 15 a.m.</option>
                           <option value="10:30">10 : 30 a.m.</option>
                           <option value="10:45">10 : 45 a.m.</option>
@@ -219,79 +215,37 @@ $asistance = findAllasistanceLimit();
                       </div>
                     </div>
                   </div>
-                  <!--   <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="duracionhora">Duración en hora </label>
-                        <select id="duracionhora" name="duracionhora" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <option value="01">1 Hora.</option>
-                          <option value="02">2 Hora.</option>
-                          <option value="03">3 Hora.</option>
-                          <option value="04">4 Hora.</option>
-                          <option value="05">5 Hora.</option>
-                          <option value="06">6 Hora.</option>
-                          <option value="07">7 Hora.</option>
-                          <option value="08">8 Hora.</option>
-                          <option value="09">9 Hora.</option>
-                          <option value="10">10 Hora.</option>
-                          <option value="11">11 Hora.</option>
-                          <option value="12">12 Hora.</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="duracionminuto">Minutos.</label>
-                        <select id="duracionminuto" name="duracionminuto" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <option value="00">0 Minutos.</option>
-                          <option value="15">15 Minutos.</option>
-                          <option value="30">30 Minutos.</option>
-                          <option value="45">45 Minutos.</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>-->
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="materialsocializado">Tiempo Trancurrido</label>
-                      <input type="text" id="horas_justificacion_real" name="horas_justificacion_real" class="form-control" readonly>
-                    </div>
-                  </div>
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="profesor">Profesor</label>
-                        <select id="profesoradd" name="profesoradd" class="form-control select2" style="width: 100%;" required>
-                          <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <?php foreach ($teachers as $teachers) :
-                            if ($teachers['status'] == "INACTIVE") {
-                          ?>
-                              <option value="<?php echo removeJunk($teachers['id_teacher']); ?>" disabled hidden><?php echo removeJunk($teachers['fullname_teacher'] . " -  " . $teachers['name_subject']); ?></option>
-                            <?php
-                            } else {
-                            ?>
-                              <option value="<?php echo removeJunk($teachers['id_teacher']); ?>"><?php echo removeJunk($teachers['fullname_teacher'] . " -  " . $teachers['name_subject']); ?></option>
-                            <?php
-                            }
-                            ?>
+                        <label for="materialsocializado">Tiempo Trancurrido</label>
+                        <input type="text" id="horas_justificacion_real" name="horas_justificacion_real" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label for="profesor">Clase</label>
+                        <select id="claseadd" name="claseadd" class="form-control select2" style="width: 100%;" required>
+                          <option value="" selected disabled hidden>Seleccione una clase </option>
+                          <?php foreach ($clases as $clases) :?>
+                            <option value="<?php echo removeJunk($clases['id_lessons']); ?>"><?php echo removeJunk($clases['title'] . " - " . $clases['namegroup_lessons'] . " - " . $clases['start']); ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                  </div>
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="materialsocializado">Material socializado</label>
-                      <input type="text" title="Material Socializado" id="materialsocializadoadd" name="materialsocializadoadd" class="form-control" required>
+                      <input type="text" title="Material Socializado" id="materialsocializadoadd" name="materialsocializadoadd" class="form-control" placeholder="Guías AB 2020" required>
                     </div>
                   </div>
-
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="ejetematico">Eje temático</label>
-                      <input class="form-control form-control-lg" title="Eje Temático" id="ejetematicoadd" name="ejetematicoadd" type="text" placeholder="" required>
+                      <input class="form-control" title="Eje Temático" id="ejetematicoadd" name="ejetematicoadd" type="text" placeholder="Ciencias naturales – estequiometria " required>
                     </div>
                   </div>
                   <div class="row">
@@ -322,15 +276,21 @@ $asistance = findAllasistanceLimit();
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                       <div class="form-group">
-                        <label for="grupo">Grupo</label>
-                        <select id="grupoadd" name="grupoadd" class="form-control select2" style="width: 100%;" required>
+                        <label for="materia">Materia</label>
+                        <select id="subjectadd" name="subjectadd" class="form-control select2" style="width: 100%;" required>
                           <option value="" selected disabled hidden>Seleccione una opción </option>
-                          <?php foreach ($group as $group) : ?>
-                            <option value="<?php echo removeJunk($group['id_group']); ?>"><?php echo removeJunk($group['grade_group']) . "º  -  " . removeJunk($group['name_group']); ?></option>
+                          <?php foreach ($subject as $subject) : ?>
+                            <option value="<?php echo removeJunk($subject['id_subject']); ?>"><?php echo removeJunk($subject['name_subject']); ?></option>
                           <?php endforeach; ?>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="number"> Numero de asistentes.</label>
+                        <input class="form-control" title="Numero de estudiantes que asistieron" pattern="^[0-9]+" id="numberassistants" name="numberassistants" type="number" placeholder="35 Estudiantes" required>
                       </div>
                     </div>
                   </div>
@@ -339,7 +299,7 @@ $asistance = findAllasistanceLimit();
                     <textarea class="form-control" rows="3" id="observacionesadd" name="observacionesadd" placeholder="Observaciones..."></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputFile">Adjuntar lista de asistencia (.txt / .docx / .jpg) </label>
+                    <label for="exampleInputFile">Adjuntar lista de asistencia (.txt / .pdf / .jpg) </label>
                     <div class="input-group">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="evidenceadd" required name="evidenceadd" onchange="return fileValidation(this.files[0].name)" />
@@ -349,19 +309,18 @@ $asistance = findAllasistanceLimit();
                     <input type="text" id="name" name="name" class="form-control" value="No se ha seleccionado un archivo" readonly>
                     <br>
                   </div>
-
                   <div class="form-group">
-                    <input value="Guardar" type="submit" class="btn btn-success float-right">
+                    <button type="submit" class="btn btn-success float-right">
+                      <i class="fas fa-save"> Guardar asistencia </i>
+                    </button>
                   </div>
                 </form>
               </div>
-
-              <!-- /.card-body -->
             </div>
 
-            <div class="card card-primary collapsed-card">
+            <div class="card card-primary  collapsed-card">
               <div class="card-header">
-                <h3 class="card-title">Lista de asistencias</h3>
+                <h3 class="card-title">Ultimos 1000 asistencias registradas</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapso">
                     <i class="fas fa-plus"></i>
@@ -370,119 +329,169 @@ $asistance = findAllasistanceLimit();
               </div>
               <div class="card-body">
                 <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Asistencias</h3>
-                  </div>
-                  <!-- /.card-header -->
                   <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-hover">
                       <thead>
                         <tr>
                           <th>#</th>
                           <th>Fecha</th>
                           <th>Inicio/Final</th>
                           <th>Duracion de la clase</th>
-                          <th>Docente</th>
-                          <th>Asignatura</th>
+                          <th>Clase</th>
                           <th>Material socializado</th>
                           <th>Eje temático</th>
-                          <th>Institución</th>
-                          <th>Grupo</th>
-                          <th>Evidencia</th>
-                          <th>Opciones</th>
+                          <th>Numero de asistentes</th>
+                          <th>Opción</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php foreach ($asistance as $asistance) : ?>
                           <tr>
-                            <td class="text-center"><?php echo countId(); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']) . " - " . removeJunk($asistance['end_time_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Hrs"; ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
-                            <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
-
-                            <td class="text-center"> <?php echo removeJunk($asistance['name_colleges']); ?></td>
-
-                            <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
-
-
-                            <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
+                            <td class="text-center"> <?php echo countId(); ?></td>
+                            <td class="text-center"> <?php echo $asistance['date_assistance']; ?></td>
+                            <td class="text-center"> <?php echo $asistance['start_time_assistance'] . " - " . $asistance['end_time_assistance']; ?></td>
+                            <td class="text-center"> <?php echo $asistance['time_elapsed_assistance'] . " Hrs"; ?></td>
+                            <td class="text-center" title="<?php echo $asistance['name_subject']; ?>"> <?php echo $asistance['title']; ?></td>
+                            <td class="text-center"> <?php echo $asistance['socialized_material_assistance']; ?></td>
+                            <td class="text-center"> <?php echo $asistance['main_theme_assistance']; ?></td>
+                            <td class="text-center"> <?php echo $asistance['number_assistants'] . " Est."; ?></td>
                             <td class="text-center">
-                              <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
+                              <a class="btn btn-success btn-sm btnVer" title="Ver Evidencia" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
+                                <i class="far fa-folder-open"></i> </a>
+                              <a class="btn btn-info btn-sm btnDetails" title="Ver Detalles" data-id="<?php echo $asistance['id_assistance']; ?>" data-fecha="<?php echo $asistance['date_assistance']; ?>" data-horainicio="<?php echo $asistance['start_time_assistance']; ?>" data-asignatura="<?php echo $asistance['name_subject']; ?>" data-horafinal="<?php echo $asistance['end_time_assistance']; ?>" data-tiempototal="<?php echo $asistance['time_elapsed_assistance']; ?>" data-colegio="<?php echo $asistance['name_colleges']; ?>" data-profesor="<?php echo $asistance['teacher_lessons']; ?>" data-asignatura="<?php echo $asistance['name_subject']; ?>" data-material="<?php echo $asistance['socialized_material_assistance']; ?>" data-numeroasistentes="<?php echo $asistance['number_assistants']; ?>" data-ejetematico="<?php echo $asistance['main_theme_assistance']; ?>" data-clase="<?php echo $asistance['title']; ?>" data-fechaclas="<?php echo $asistance['start']; ?>" data-evidencia="<?php echo $asistance['evidence_assistance']; ?>" data-observaciones="<?php echo $asistance['observations_assistance']; ?>" data-toggle="modal" data-target="#modal-xl">
                                 <i class="far fa-eye"></i> </a>
-                            </td>
-                            <td class="text-center">
-                              <a class="btn btn-info btn-sm btnEditar" href="#">
-                                <i class="far fa-edit"></i> </a>
-                              <a class="btn btn-danger btn-sm btnEliminar" href="#">
-                                <i class="far fa-trash-alt"></i> </a>
+                              <?php if ($user['tipo'] == "Administrador") { ?>
+                                <a class="btn btn-primary btn-sm btnEditar" href="#">
+                                  <i class="far fa-edit"></i> </a>
+                                <a class="btn btn-danger btn-sm btnDelete" data-id="<?php echo $asistance['id_assistance']; ?>" data-clase="<?php echo $asistance['title']; ?>">
+                                  <i class="far fa-trash-alt"></i> </a>
+                              <?php } ?>
                             </td>
                           </tr>
                         <?php endforeach; ?>
                       </tbody>
-                      <!-- <tfoot>
-                    <tr>
-                      <th>Rendering engine</th>
-                      <th>Browser</th>
-                      <th>Platform(s)</th>
-                      <th>Engine version</th>
-                    </tr>
-                  </tfoot>-->
                     </table>
                   </div>
-                  <!-- /.card-body -->
                 </div>
               </div>
             </div>
 
+          </div>
+        </div>
+    </div>
 
+    <div class="modal fade bd-example-modal-lg" id="modal-xl">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Detalles de asistencia </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card card card-light">
+              <div class="card-header">
+                <h3 class="card-title" id="dateDetails"></h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <strong><i class="fas fa-calendar-alt"></i> Inicio / Final de clase</strong>
+
+                <p class="text-muted" id="startendclass">
+
+                </p>
+
+                <hr>
+
+                <strong><i class="fas fa-clock"></i> Duracion de la clase</strong>
+
+                <p class="text-muted" id="durationclass"></p>
+
+                <hr>
+
+                <strong><i class="fas fa-chalkboard-teacher"></i> Profesor</strong>
+
+                <p class="text-muted" id="teacherclass"></p>
+
+                <hr>
+
+                <strong><i class="fas fa-chalkboard-teacher"></i> Asignatura</strong>
+
+                <p class="text-muted" id="subjetclass"></p>
+
+                <hr>
+                <strong><i class="fas fa-school"></i> Institución</strong>
+
+                <p class="text-muted" id="collageclass"></p>
+
+                <hr>
+
+                <strong><i class="fas fa-file-signature"></i> Material de la clase</strong>
+
+                <p class="text-muted" id="materialclass"></p>
+
+                <hr>
+
+                <strong><i class="fas fa-book-reader"></i> Eje temático </strong>
+
+                <p class="text-muted" id="ejetematicoclass"></p>
+
+                <hr>
+                <strong><i class="fas fa-users"></i> Clase</strong>
+
+                <p class="text-muted" id="class"></p>
+
+                <hr>
+                <strong><i class="fas fa-sort-numeric-up"></i> Numero de asistentes</strong>
+
+                <p class="text-muted" id="numberclass"></p>
+
+                <hr>
+                <strong><i class="far fa-file-alt mr-1"></i> Notas</strong>
+
+                <p class="text-muted" id="observationclass"></p>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
           </div>
-          <!-- /.card -->
         </div>
-
-
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
     </div>
 
-    </section>
 
-
-  </div>
-  <!-- /.content-wrapper -->
-
-  <div class="modal fade" id="modal-lg">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Large Modal</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <embed src="" type="application/pdf" id="visual" name="visual" width="100%" height="600px" />
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
 
-
-
-  <?php include('../layout/footer.php'); ?>
+    <?php include('../layout/footer.php'); ?>
 </body>
-
 
 <script>
   $(document).ready(function() {
-    console.log("ws");
 
     $("#departamentoadd").change(function() {
       $.get("../includes/sentences/get_municipality.php", "departamentoadd=" + $("#departamentoadd").val(), function(data) {
@@ -501,21 +510,55 @@ $asistance = findAllasistanceLimit();
 
 <script>
   $(function() {
-    //Initialize Select2 Elements
     $('.select2').select2()
-    //Initialize Select2 Elements
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
   })
+  $(document).ready(function() {
+    $(".btnDetails").click(function() {
+      var id = $(this).data('id');
+      var fecha = $(this).data('fecha');
+      var horainicio = $(this).data('horainicio');
+      var horafinal = $(this).data('horafinal');
+      var duracion = $(this).data('tiempototal');
+      var profesor = $(this).data('profesor');
+      var colegio = $(this).data('colegio');
+      var materialsocializado = $(this).data('material');
+      var ejetematico = $(this).data('ejetematico');
+      var clase = $(this).data('clase');
+      var fechaclas = $(this).data('fechaclas');
+      var numeroasistente = $(this).data('numeroasistentes');
+      var observaciones = $(this).data('observaciones');
+      var numeroestudiantes = $(this).data('numeroestudiantes');
+      var asignatura = $(this).data('asignatura')
+      $("#dateDetails").text("  " + fecha);
+      $("#startendclass").text(horainicio + " / " + horafinal);
+      $("#durationclass").text(duracion + " Horas");
+      $("#teacherclass").text("  " + profesor);
+      $("#collageclass").text("  " + colegio);
+      $("#subjetclass").text("  " + asignatura);
+      $("#materialclass").text("  " + materialsocializado);
+      $("#ejetematicoclass").text("  " + ejetematico);
+      $("#class").text("  " + clase + " / " + fechaclas);
+      $("#numberclass").text("  " + numeroasistente + " Estudiantes");
+      $("#observationclass").text("  " + observaciones);
+    });
+    $(".btnDelete").click(function() {
+      var id = $(this).data('id');
+      var clase = $(this).data('clase');
+      fila = $(this).parent('td').parent('tr');
+      eliminar(id, clase, fila);
+    });
+  });
 </script>
+
 <script>
   function fileValidation($name) {
     var fileInput = document.getElementById('evidenceadd');
     var filePath = fileInput.value;
     if (fileInput.length == 0) {
       alert("Por favor seleccion un archivo");
-
     } else {
       var allowedExtensions = /(.jpg|.jpeg|.png|.pdf)$/i;
       if (!allowedExtensions.exec(filePath)) {
@@ -528,52 +571,30 @@ $asistance = findAllasistanceLimit();
     }
   }
 </script>
+
 <script>
   $(function() {
     $("#example1").DataTable({
       "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "lengthChange": true,
+      "autoWidth": true,
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
+  $('.clockpicker').clockpicker();
 </script>
+
 <script>
-  /* $(document).ready(function() {
-    $(".btnVer").click(function() {
-
-      idVer = $(this).data('id');
-      var evidencia = $(this).data('evidencia');
-
-      document.getElementById("visual").src = "../uploads/evidences/" + evidencia;
-      $("#idVer").val(idVer);
-    });
-  });*/
-
-
   function calculardiferencia() {
-
     var hora_final = $('#horafinaladd').val();
     var hora_inicio = $('#horainicioadd').val();
     // console.log("- "+hora_inicio + hora_final);
     // Expresión regular para comprobar formato
     var formatohora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-
     // Si algún valor no tiene formato correcto sale
     if (!(hora_inicio.match(formatohora) &&
         hora_final.match(formatohora))) {
       return;
     }
-
     // Calcula los minutos de cada hora
     var minutos_inicio = hora_inicio.split(':')
       .reduce((p, c) => parseInt(p) * 60 + parseInt(c));
@@ -595,8 +616,6 @@ $asistance = findAllasistanceLimit();
       $('#horas_justificacion_real').val(horas + ':' +
         (minutos < 10 ? '0' : '') + minutos);
     }
-
-
   }
 
   $('#horainicioadd').change(calculardiferencia);
@@ -604,5 +623,37 @@ $asistance = findAllasistanceLimit();
   calculardiferencia();
 </script>
 
+<script>
+  function eliminar($id, $clase, $fila) {
+    Swal.fire({
+      title: 'Desea Eliminar esta asistencia?' + $clase,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Eliminar`,
+      denyButtonText: `No eliminar, cancelar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+
+        $.ajax({
+          type: 'POST',
+          url: '../includes/sentences/delete_asistences.php',
+          data: {
+            id: $id
+          },
+          success: function(msg) {
+            Swal.fire('Asistencia eliminada!', '', 'success')
+            $($fila).fadeOut(1000);
+          },
+          error: function() {
+            Swal.fire('Changes are not saved', '', 'error')
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Asistencia no eliminada', '', 'info')
+      }
+    })
+  }
+</script>
 
 </html>

@@ -21,111 +21,181 @@ class MySqli_DB
     //$this->con->set_charset("utf8");
     if (!$this->con) {
       echo "
+      <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap' );
+      
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
+      
+      *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+      }
+      
+      body{
+        overflow:hidden;
+        background-color: #f4f6ff;
+      }
+      
+      .container{
+        width:100vw;
+        height:100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        left:6vmin;
+        text-align: center;
+      }
+      
+      .cog-wheel1, .cog-wheel2{
+        transform:scale(0.7);
+      }
+      
+      .cog1, .cog2{
+        width:40vmin;
+        height:40vmin;
+        border-radius:50%;
+        border:6vmin solid #f3c623;
+        position: relative;
+      }
+      
+      
+      .cog2{
+        border:6vmin solid #4f8a8b;
+      }
+      
+      .top, .down, .left, .right, .left-top, .left-down, .right-top, .right-down{
+        width:10vmin;
+        height:10vmin;
+        background-color: #f3c623;
+        position: absolute;
+      }
+      
+      .cog2 .top,.cog2  .down,.cog2  .left,.cog2  .right,.cog2  .left-top,.cog2  .left-down,.cog2  .right-top,.cog2  .right-down{
+        background-color: #4f8a8b;
+      }
+      
+      .top{
+        top:-14vmin;
+        left:9vmin;
+      }
+      
+      .down{
+        bottom:-14vmin;
+        left:9vmin;
+      }
+      
+      .left{
+        left:-14vmin;
+        top:9vmin;
+      }
+      
+      .right{
+        right:-14vmin;
+        top:9vmin;
+      }
+      
+      .left-top{
+        transform:rotateZ(-45deg);
+        left:-8vmin;
+        top:-8vmin;
+      }
+      
+      .left-down{
+        transform:rotateZ(45deg);
+        left:-8vmin;
+        top:25vmin;
+      }
+      
+      .right-top{
+        transform:rotateZ(45deg);
+        right:-8vmin;
+        top:-8vmin;
+      }
+      
+      .right-down{
+        transform:rotateZ(-45deg);
+        right:-8vmin;
+        top:25vmin;
+      }
+      
+      .cog2{
+        position: relative;
+        left:-10.2vmin;
+        bottom:10vmin;
+      }
+      
+      h1{
+        color:#142833;
+      }
+      
+      .first-four{
+        position: relative;
+        left:6vmin;
+        font-size:40vmin;
+      }
+      
+      .second-four{
+        position: relative;
+        right:18vmin;
+        z-index: -1;
+        font-size:40vmin;
+      }
+      
+      .wrong-para{
+        font-family: 'Montserrat', sans-serif;
+        position: absolute;
+        bottom:15vmin;
+        padding:3vmin 12vmin 3vmin 3vmin;
+        font-weight:600;
+        color:#092532;
+      }
+      </style>
+      
       <!DOCTYPE html>
-<html lang=&quot;es&quot;>
-
-<head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-  <link rel='icon' href='img/assets/favicon.ico'>
-  <style>
-    ::-moz-selection {
-      background: #b3d4fc;
-      text-shadow: none;
-    }
-
-    ::selection {
-      background: #b3d4fc;
-      text-shadow: none;
-    }
-
-
-    html {
-      padding: 30px 10px;
-      font-size: 16px;
-      line-height: 1.4;
-      color: #737373;
-      background: #f0f0f0;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-
-    html,
-    input {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-
-
-    body {
-      max-width: 700px;
-      _width: 700px;
-      padding: 30px 20px 50px;
-      border: 1px solid #b3b3b3;
-      border-radius: 4px;
-      margin: 0 auto;
-      box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;
-      background: #fcfcfc;
-    }
-
-    h1 {
-      margin: 0 10px;
-      font-size: 50px;
-      text-align: center;
-    }
-
-    h1 span {
-      color: #bbb;
-    }
-
-    h2 {
-      color: #D35780;
-      margin: 0 10px;
-      font-size: 40px;
-      text-align: center;
-    }
-
-    h2 span {
-      color: #bbb;
-      font-size: 80px;
-    }
-
-    h3 {
-      margin: 1.5em 0 0.5em;
-    }
-
-    p {
-      margin: 1em 0;
-    }
-
-    ul {
-      padding: 0 0 0 40px;
-      margin: 1em 0;
-    }
-
-    .container {
-      max-width: 380px;
-      _width: 480px;
-      margin: 0 auto;
-    }
-
-    input::-moz-focus-inner {
-      padding: 0;
-      border: 0;
-    }
-  </style>
-</head>
-
-<body>
-  <div class=&quot;container&quot;>
-    <h2><span>Error de conexíon </span></h2>
-    <h2>NO SE PUDO ESTABLECER CONEXIÓN CON LA BASE DE DATOS</h2>
-    <p>¡Vaya! Algo salió mal.<br /><br />Trata de volver a cargar esta página o no dudes en contactar con nosotros si el
-      problema persiste.</p>
-  </div>
-</body>
-
-</html>
+      <html lang='en'>
+      
+      <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>ERROR  | GEAM</title>
+        <link rel='icon' href='../assets/dist/img/favicon.ico'>
+      
+      
+      <body >
+      <div class='container'>
+        <h1 class='first-four'></h1>
+        <div class='cog-wheel1'>
+            <div class='cog1'>
+              <div class='top'></div>
+              <div class='down'></div>
+              <div class='left-top'></div>
+              <div class='left-down'></div>
+              <div class='right-top'></div>
+              <div class='right-down'></div>
+              <div class='left'></div>
+              <div class='right'></div>
+          </div>
+        </div>
+        
+        <div class='cog-wheel2'> 
+          <div class='cog2'>
+              <div class='top'></div>
+              <div class='down'></div>
+              <div class='left-top'></div>
+              <div class='left-down'></div>
+              <div class='right-top'></div>
+              <div class='right-down'></div>
+              <div class='left'></div>
+              <div class='right'></div>
+          </div>
+        </div>
+       <h1 class='second-four'></h1>
+        <p class='wrong-para'>Uh Oh! No se pudo establecer conexión con la base de datos.  <a  href='javascript:location.reload()'> Volver  a cagar la página. </a></p>
+       
+      </div>
       
       ";
       die(" Database connection failed:" . mysqli_connect_error());
@@ -133,6 +203,7 @@ class MySqli_DB
       $select_db = $this->con->select_db(DB_NAME);
       if (!$select_db) {
         die("Failed to Select Database" . mysqli_connect_error());
+  
       }
     }
   }
@@ -213,5 +284,5 @@ class MySqli_DB
     return $results;
   }
 }
-$pdo = new PDO("mysql:dbname=coordinacion;host DB_HOST", "root", "");
+
 $db = new MySqli_DB();

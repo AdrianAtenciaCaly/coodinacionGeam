@@ -17,7 +17,7 @@ echo "evidencia ". $_FILES['evidenceadd']['name']."<br>";
 echo "hora de  inicio ".$_POST['horainicioadd']."<br>"; 
 echo "hora final ".$_POST['horafinaladd']."<br>"; 
 echo "tiempo transcurrido ".$_POST['horas_justificacion_real']."<br>"; */
-if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST['horafinaladd']) && isset($_POST['horas_justificacion_real']) && isset($_POST['profesoradd'])  && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd']) && isset($_POST['grupoadd']) ) {
+if (isset($_POST['numberassistants']) && isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST['horafinaladd']) && isset($_POST['horas_justificacion_real']) && isset($_POST['claseadd'])  && isset($_POST['materialsocializadoadd']) && isset($_POST['ejetematicoadd']) && isset($_POST['institucionadd'])  ) {
     $carpeta = "../../uploads/evidences/";
     $nombre = $_FILES['evidenceadd']['name'];
 
@@ -32,11 +32,14 @@ if (isset($_POST['fechaadd']) && isset($_POST['horainicioadd']) && isset($_POST[
             '" . $_POST['horainicioadd'] . "',
             '" . $_POST['horafinaladd'] . "',
             '" . $_POST['horas_justificacion_real'] . "',
-            '" . $_POST['profesoradd'] . "',
+           
             '" . $_POST['institucionadd'] . "',
+            '" . $_POST['claseadd'] . "',
+            '" . $_POST['subjectadd'] . "',
             '" . $_POST['materialsocializadoadd'] . "',
             '" . $_POST['ejetematicoadd'] . "',     
-            '" . $_POST['grupoadd'] . "',
+          
+            '" . $_POST['numberassistants'] . "',
             '" . $_POST['observacionesadd'] . "',
             '" . $nombreFinal . "',
             '" . make_date() . "',

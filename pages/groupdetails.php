@@ -1,7 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-  redirect('../index', false);
-}
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 if (!isset($_GET['id_group']) || $_GET['id_group'] == "") {
   redirect('dashboard', false);
 }

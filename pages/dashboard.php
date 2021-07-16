@@ -1,17 +1,20 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-    redirect('../index', false);
-}
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 $numeroAsistencia = countAsistence();
 $numeroProfesores = countTeacher();
 $numeroGrupo = countGroup();
 $asistance = findAllasistanceLimit();
-
 $numeroInstituciones = countInstitutions();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,6 +58,7 @@ $numeroInstituciones = countInstitutions();
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
+
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -70,7 +74,9 @@ $numeroInstituciones = countInstitutions();
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
+
             <section class="content">
+                <?php echo displayMSG($msg); ?>
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
@@ -111,8 +117,7 @@ $numeroInstituciones = countInstitutions();
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="group" class="small-box-footer">Ir a grupos<i class="fas fa-arrow-circle-right"></i></a>
-
+                                <a href="group" class="small-box-footer">Ir a grupos <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-6">
@@ -124,8 +129,7 @@ $numeroInstituciones = countInstitutions();
                                 <div class="icon">
                                     <i class="fas fa-university"></i>
                                 </div>
-                                <a href="institutions" class="small-box-footer">Ir a colegios<i class="fas fa-arrow-circle-right"></i></a>
-
+                                <a href="institutions" class="small-box-footer">Ir a colegios <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -140,22 +144,22 @@ $numeroInstituciones = countInstitutions();
                             <div class="col-12">
 
                                 <div class="card-body">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                <table id="example1" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
-                                                <th>Hora de inicio</th>
-                                                <th>Hora final</th>
+                                                <th>Inicio/Final</th>
                                                 <th>Duracion de la clase</th>
-                                                <th>Docente</th>
-                                                <th>Asignatura</th>
+                                                <th>Clase</th>
+                                                <!-- <th>Asignatura</th>-->
                                                 <th>Material socializado</th>
                                                 <th>Eje temático</th>
-                                                <th>Institución</th>
-                                                <th>Grupo</th>
-                                                <th>Evidencia</th>
+                                                <!--  <th>Institución</th>-->
 
+                                                <th>Numero de asistentes</th>
+                                                <th>Opción</th>
+                                                <!--<th>Opciones</th>-->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -163,24 +167,16 @@ $numeroInstituciones = countInstitutions();
                                                 <tr>
                                                     <td class="text-center"><?php echo countId(); ?></td>
                                                     <td class="text-center"> <?php echo removeJunk($asistance['date_assistance']); ?></td>
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']); ?></td>
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['end_time_assistance']); ?></td>
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Horas"; ?></td>
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['fullname_teacher']); ?></td>
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_subject']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['start_time_assistance']) . " - " . removeJunk($asistance['end_time_assistance']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['time_elapsed_assistance']) . " Hrs"; ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['title']); ?></td>
                                                     <td class="text-center"> <?php echo removeJunk($asistance['socialized_material_assistance']); ?></td>
                                                     <td class="text-center"> <?php echo removeJunk($asistance['main_theme_assistance']); ?></td>
-
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_colleges']); ?></td>
-
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['institution_assistance']); ?></td>
-
-
-                                                    <td class="text-center"> <?php echo removeJunk($asistance['name_group']); ?></td>
+                                                    <td class="text-center"> <?php echo removeJunk($asistance['number_assistants']) . " Est."; ?></td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-primary btn-sm btnVer" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
-                                                            <i class="far fa-eye"></i> </a>
-                                                    </td>
+                                                        <a class="btn btn-primary btn-sm btnVer" title="Ver Evidencia" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=900,height=800,left=10,top=10,toolbar=yes');void 0">
+                                                            <i class="far fa-folder-open"></i> </a>
+                                                    </td>                                        
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -188,12 +184,7 @@ $numeroInstituciones = countInstitutions();
                                 </div>
                             </div>
                         </section>
-                        <!-- /.Left col -->
-                        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                        <section class="col-lg-12 connectedSortable">
-
-                        </section>
-                        <!-- right col -->
+    
                     </div>
                     <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
@@ -209,7 +200,7 @@ $numeroInstituciones = countInstitutions();
     $(function() {
         $("#example1").DataTable({
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');

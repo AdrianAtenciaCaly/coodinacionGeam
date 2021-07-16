@@ -1,1 +1,4 @@
-<input type="button" value="Cerrar ventana" onClick="self.close();" onKeyPress="self.close();" />
+<?php
+include_once('includes/load.php');
+verificarConexionBD();
+?>

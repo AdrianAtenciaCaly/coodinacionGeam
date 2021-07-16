@@ -1,14 +1,9 @@
 <?php include_once('includes/load.php');
-
-
-
 if ($session->isUserLoggedIn(true)) {
   redirect('./pages/dashboard', false);
 }
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
-
-
 
   $req_fields = array('user', 'password');
   validate_fields($req_fields);
@@ -21,8 +16,13 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
       $session->login($user_id);
       updateLastLogIn($user_id);
       $user = current_user();
-      $session->msg("s", "Bienvenido  de nuevo " . $user['name'] . " de nuevo!");
-      header("Location: ./pages/dashboard");
+      if ($user['tipo'] != "Docente") {
+        $session->msg("s", "Bienvenido  de nuevo " . $user['name'] );
+        header("Location: ./pages/dashboard");
+      } else {
+        $session->msg("s", "Bienvenido  de nuevo " . $user['name']);
+        header("Location: ./pages/lessonsTeachers");
+      }
     } else {
       $session->msg("d", "Nombre de usuario y/o contraseña incorrecto.");
       header("Location: index");
@@ -37,7 +37,6 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,8 +55,9 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
   <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-color:#FFFFFF;">
   <?php echo displayMSG($msg); ?>
+
   <div class="login-box">
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
@@ -66,13 +66,9 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
       </div>
       <div class="card-body">
         <p class="login-box-msg">Iniciar sesión</p>
-
         <form action="index" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" 
-            value="<?php if(isset($_POST['user'])) {
-            echo $_POST['user'];
-            } ?>" title="Usuario">
+            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" title="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -90,21 +86,89 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
           <br>
           <div class="row">
             <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="remember" title="Ver contraseña">
-                <label for="remember">
-                  Ver Contraseña
-                </label>
+              <div class="form-group mb-0">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                  <label class="custom-control-label" for="exampleCheck1">Ver Contraseña.</label>
+                </div>
               </div>
             </div>
-            <!-- /.col -->
             <br>
             <div class="col-4">
               <button type="submit" title="Ingresar" class="btn btn-primary btn-block">Ingresar</button>
             </div>
-            <!-- /.col -->
           </div>
-        </form>     
+        </form>
+      </div>
+
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <footer class="">
+            <strong>Copyright &copy; 2021 <a href="#" data-toggle="modal" data-target="#exampleModaIam">
+                Sistema de gestión académica - Grupo Educativo Abel Mendoza, desarrollado por Adrián Andres Atencia Caly </a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+              <b>Version</b> 1.0
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModaIam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Desarrollado por: </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12">
+            <div class="card card-widget widget-user">
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Adrián Andrés Atencia Caly</h3>
+                <h5 class="widget-user-desc">Ingeniero de sistemas.</h5>
+              </div>
+              <div class="widget-user-image">
+                <img class="img-circle elevation-2" src="assets/dist/img/my.jpg" alt="User Avatar">
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-3 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3133580263</h5>
+                      <span class="description-text">Contacto</span>
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-5 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">adrianandres1998@gmail.com</h5>
+                      <span class="description-text">Correo</span>
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">Github</h5>
+                      <span class="description-text"><a href="https://github.com/AdrianAtenciaCaly" target="_blank">AdrianAtenciaCaly</a></span>
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
@@ -124,11 +188,13 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
   <script src="assets/plugins/sweetalert2/sweetalert2.min.js"></script>
   <!-- Toastr -->
   <script src="assets/plugins/toastr/toastr.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
     $(document).ready(function() {
-      $('#remember').click(function() {
-        if ($('#remember').is(':checked')) {
+
+      $('#exampleCheck1').click(function() {
+        if ($('#exampleCheck1').is(':checked')) {
           $('#password').attr('type', 'text');
         } else {
           $('#password').attr('type', 'password');

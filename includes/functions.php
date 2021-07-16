@@ -84,12 +84,12 @@ function validate_fields($var)
 /*Función para mostrar mensaje de sesión
     Ex echo displayt_msg ($ mensaje);
 /*--------------------------------------------------------------*/
-function displayMSG($msg = '')
+/*function displayMSG($msg = '')
 {
   $output = array();
   if (!empty($msg)) {
     foreach ($msg as $key => $value) {
-      $output  = "<div class=\"alert alert-{$key}\">";
+      $output  = "<div class=\"alert alert-{$key}\"fade show>";
       $output .= "<a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>";
       $output .= removeJunk(first_character($value));
       $output .= "</div>";
@@ -98,7 +98,7 @@ function displayMSG($msg = '')
   } else {
     return "";
   }
-}
+}*/
 /*--------------------------------------------------------------*/
 /* Función para redirigir
 /*--------------------------------------------------------------*/
@@ -162,10 +162,54 @@ function randString($length = 5)
     $str .= $cha[mt_rand(0, strlen($cha))];
   return $str;
 }
-function generarCodigo($longitud) {
+function generarCodigo($longitud)
+{
   $key = '';
   $pattern = 'G1234567890abcdefghijklmnopqrstuvwxyz';
-  $max = strlen($pattern)-1;
-  for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+  $max = strlen($pattern) - 1;
+  for ($i = 0; $i < $longitud; $i++) $key .= $pattern{
+    mt_rand(0, $max)};
   return $key;
-}   
+}
+
+
+function verificarArchivo($filename)
+{
+
+  $nombre_fichero = '../uploads/evidences/' . $filename;
+
+  if (file_exists($nombre_fichero)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function displayMSG($msg = '')
+{
+  $output = array();
+  if (!empty($msg)) {
+    foreach ($msg as $key => $value) {
+      $output  = "<div class=\"alert alert-{$key}\"alert-dismissible>";
+      // $output .= "<a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>";
+      $output .= "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
+      if ($key == "danger") {
+        $output .= "<h5><i class='icon fas fa-ban'></i> Alerta!</h5>";
+      }
+      if ($key == "success") {
+        $output .= "<h5><i class='icon fas fa-check'></i> Alerta!</h5>";
+      }
+      if ($key == "warning") {
+        $output .= "<h5><i class='icon fas fa-exclamation-triangle'></i> Alerta!</h5>";
+      }
+      if ($key == "info") {
+        $output .= "<h5><i class='icon fas fa-info'></i> Alerta!</h5>";
+      }
+      $output .= removeJunk(first_character($value));
+      $output .= "</div>";
+    }
+    return $output;
+  } else {
+    return "";
+  }
+}

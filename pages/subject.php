@@ -1,7 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-    redirect('../index', false);
-}
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 
 $subject = findAllsubject();
 ?>
@@ -98,7 +102,9 @@ $subject = findAllsubject();
 
                                     <br>
                                     <div class="form-group">
-                                        <input type="submit" value="Guardar" class="btn btn-success float-right">
+                                    <button type="submit" class="btn btn-success float-right" >
+                    <i class="fas fa-save"> Guardar</i>
+                  </button>
                                     </div>
                                 </form>
                             </div>
@@ -190,7 +196,9 @@ $subject = findAllsubject();
 
                                     <br>
                                     <div class="form-group">
-                                        <input type="submit" value="Guardar" class="btn btn-success float-right">
+                                        <button type="submit" class="btn btn-success float-right">
+                                            <i class="fas fa-save"> Actualizar</i>
+                                        </button>
                                     </div>
                                 </form>
                             </div>

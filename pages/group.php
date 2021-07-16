@@ -1,8 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-  redirect('../index', false);
-}
-
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 $group = findAllgroup();
 ?>
 
@@ -101,14 +104,14 @@ $group = findAllgroup();
                     <div class="col-md-8">
                       <div class="form-group">
                         <label for="inputProjectLeader">Nombre del grupo </label>
-                        <input type="text" id="nombregrupo" name="nombregrupo" class="form-control" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <input type="text" id="nombregrupo" name="nombregrupo" class="form-control" required onkeyup="javascript:this.value=this.value.toUpperCase();">
                       </div>
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="inputStatus">Grado</label>
-                      <select id="gradogrupo" name="gradogrupo" class="form-control select2">
+                      <select id="gradogrupo" name="gradogrupo" class="form-control select2" required>
                       <option value="" selected disabled hidden>Seleccione una opción</option>
                         <option value="9">9º</option>
                         <option value="10">10º</option>
@@ -123,7 +126,9 @@ $group = findAllgroup();
 
                   <br>
                   <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-success float-right">
+                  <button type="submit" class="btn btn-success float-right" >
+                    <i class="fas fa-save"> Guardar Grupo</i>
+                  </button>
                   </div>
 
 

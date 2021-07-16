@@ -1,175 +1,99 @@
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" );
-
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  overflow:hidden;
-  background-color: #f4f6ff;
-}
-
-.container{
-  width:100vw;
-  height:100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Poppins", sans-serif;
-  position: relative;
-  left:6vmin;
-  text-align: center;
-}
-
-.cog-wheel1, .cog-wheel2{
-  transform:scale(0.7);
-}
-
-.cog1, .cog2{
-  width:40vmin;
-  height:40vmin;
-  border-radius:50%;
-  border:6vmin solid #f3c623;
-  position: relative;
-}
-
-
-.cog2{
-  border:6vmin solid #4f8a8b;
-}
-
-.top, .down, .left, .right, .left-top, .left-down, .right-top, .right-down{
-  width:10vmin;
-  height:10vmin;
-  background-color: #f3c623;
-  position: absolute;
-}
-
-.cog2 .top,.cog2  .down,.cog2  .left,.cog2  .right,.cog2  .left-top,.cog2  .left-down,.cog2  .right-top,.cog2  .right-down{
-  background-color: #4f8a8b;
-}
-
-.top{
-  top:-14vmin;
-  left:9vmin;
-}
-
-.down{
-  bottom:-14vmin;
-  left:9vmin;
-}
-
-.left{
-  left:-14vmin;
-  top:9vmin;
-}
-
-.right{
-  right:-14vmin;
-  top:9vmin;
-}
-
-.left-top{
-  transform:rotateZ(-45deg);
-  left:-8vmin;
-  top:-8vmin;
-}
-
-.left-down{
-  transform:rotateZ(45deg);
-  left:-8vmin;
-  top:25vmin;
-}
-
-.right-top{
-  transform:rotateZ(45deg);
-  right:-8vmin;
-  top:-8vmin;
-}
-
-.right-down{
-  transform:rotateZ(-45deg);
-  right:-8vmin;
-  top:25vmin;
-}
-
-.cog2{
-  position: relative;
-  left:-10.2vmin;
-  bottom:10vmin;
-}
-
-h1{
-  color:#142833;
-}
-
-.first-four{
-  position: relative;
-  left:6vmin;
-  font-size:40vmin;
-}
-
-.second-four{
-  position: relative;
-  right:18vmin;
-  z-index: -1;
-  font-size:40vmin;
-}
-
-.wrong-para{
-  font-family: "Montserrat", sans-serif;
-  position: absolute;
-  bottom:15vmin;
-  padding:3vmin 12vmin 3vmin 3vmin;
-  font-weight:600;
-  color:#092532;
-}
-</style>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ERROR 404  | GEAM</title>
-  <link rel="icon" href="../assets/dist/img/favicon.ico">
+  <title>(404) The page you were looking for doesn't exist.</title>
+  <link rel="stylesheet" type="text/css" href="//cloud.typography.com/746852/739588/css/fonts.css" />
+  <style type="text/css">
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
 
+    body {
+      font-family: "Whitney SSm A", "Whitney SSm B", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+      background-color: #2D72D9;
+      color: #fff;
+      -moz-font-smoothing: antialiased;
+      -webkit-font-smoothing: antialiased;
+    }
 
-<body >
-<div class="container">
-  <h1 class="first-four">4</h1>
-  <div class="cog-wheel1">
-      <div class="cog1">
-        <div class="top"></div>
-        <div class="down"></div>
-        <div class="left-top"></div>
-        <div class="left-down"></div>
-        <div class="right-top"></div>
-        <div class="right-down"></div>
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-  </div>
-  
-  <div class="cog-wheel2"> 
-    <div class="cog2">
-        <div class="top"></div>
-        <div class="down"></div>
-        <div class="left-top"></div>
-        <div class="left-down"></div>
-        <div class="right-top"></div>
-        <div class="right-down"></div>
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-  </div>
- <h1 class="second-four">4</h1>
-  <p class="wrong-para">Uh Oh! Pagina no encontrada !  <a  href="javascript:history.back()"> Volver Atrás</a></p>
- 
+    .error-container {
+      text-align: center;
+      height: 100%;
+    }
+
+    @media (max-width: 480px) {
+      .error-container {
+        position: relative;
+        top: 50%;
+        height: initial;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+    }
+
+    .error-container h1 {
+      margin: 0;
+      font-size: 130px;
+      font-weight: 300;
+    }
+
+    @media (min-width: 480px) {
+      .error-container h1 {
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .error-container h1 {
+        font-size: 220px;
+      }
+    }
+
+    .return {
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    @media (min-width: 480px) {
+      .return {
+        position: absolute;
+        width: 100%;
+        bottom: 30px;
+      }
+    }
+
+    .return a {
+      padding-bottom: 1px;
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      -webkit-transition: border-color 0.1s ease-in;
+      transition: border-color 0.1s ease-in;
+    }
+
+    .return a:hover {
+      border-bottom-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="error-container">
+  <h1>404</h1>
+  <p class="return">Uh Oh! Pagina no encontrada ! <a  href="javascript:history.back()"> Volver Atrás</a></p>
 </div>
+
+</body>
+</html>

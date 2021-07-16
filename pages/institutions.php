@@ -1,8 +1,11 @@
 <?php include_once('../includes/load.php');
-if (!$session->isUserLoggedIn(true)) {
-  redirect('../index', false);
-}
-
+   $user = current_user();
+   if (!$session->isUserLoggedIn(true)) {
+       redirect('../index', false);
+   }
+   if($user['tipo']=="Docente"){
+       redirect('./lessonsTeachers', false);
+   }
 $departamentos = findAllDepartaments();
 $institucion = findAllInstitutions();
 ?>
@@ -81,7 +84,7 @@ $institucion = findAllInstitutions();
             <div class="card card-primary">
               <?php echo displayMSG($msg); ?>
               <div class="card-header">
-                <h3 class="card-title">Registrar Grupo</h3>
+                <h3 class="card-title">Registrar Instituciones</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -123,7 +126,9 @@ $institucion = findAllInstitutions();
 
                   <br>
                   <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-success float-right">
+                    <button type="submit" class="btn btn-success float-right">
+                      <i class="fas fa-save"> Guardar</i>
+                    </button>
                   </div>
 
 
@@ -134,11 +139,11 @@ $institucion = findAllInstitutions();
             </div>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Grupos existentes</h3>
+                <h3 class="card-title">Instituciones</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+              <table id="example1" class="table table-bordered table-hover">
                   <thead>
                     <tr>
                       <th>#</th>

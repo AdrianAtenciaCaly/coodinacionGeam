@@ -3,7 +3,7 @@ include "../load.php";
 
 if (isset($_POST['estadoactual']) && isset($_POST['iddocenteeditar']) && isset($_POST['nombredocenteeditar']) && isset($_POST['apellidodocenteeditar']) && isset($_POST['nombrecompletoeditar']) && isset($_POST['asignaturaimpartida']) && isset($_POST['observacionesdocenteeditar'])) {
     $idAsignatura = findSubjectById($_POST['asignaturaimpartida']);
-    
+    echo $idAsignatura['id_subject'];
     $db->query("UPDATE teacher SET  names_teacher ='" . $_POST['nombredocenteeditar'] . "',
      surnames_teacher =  '" . $_POST['apellidodocenteeditar'] . "',
      fullname_teacher = '" . $_POST['nombrecompletoeditar'] . "',
