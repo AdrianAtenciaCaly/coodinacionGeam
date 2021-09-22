@@ -370,3 +370,12 @@ function findIdTeacher($name)
   $result = $db->query($sql);
   return ($db->fetch_assoc($result));
 }
+
+function findUserId($iduser)
+{
+  global $db;
+  $sql  = "SELECT COUNT(iduser) as total FROM users WHERE iduser ='" . $iduser . "' limit 1";
+
+  $result = $db->query($sql);
+  return ($db->fetch_assoc($result));
+}

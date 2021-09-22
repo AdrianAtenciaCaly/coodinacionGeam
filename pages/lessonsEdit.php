@@ -1,11 +1,11 @@
 <?php include_once('../includes/load.php');
-   $user = current_user();
-   if (!$session->isUserLoggedIn(true)) {
-       redirect('../index', false);
-   }
-   if($user['tipo']=="Docente"){
-       redirect('./lessonsTeachers', false);
-   }
+$user = current_user();
+if (!$session->isUserLoggedIn(true)) {
+  redirect('../index', false);
+}
+if ($user['tipo'] == "Docente") {
+  redirect('./lessonsTeachers', false);
+}
 $teachers = findAllTeachers();
 $group = findAllgroup();
 
@@ -165,7 +165,10 @@ $group = findAllgroup();
             $('#profesorselect').val(calEvent.teacher_lessons);
             $("#ModalEventos").modal();
           },
+          buttonIcons: true,
+          weekNumbers: false,
           editable: true,
+          eventLimit: true,
           eventDrop: function(calEvent) {
             $('#txtID').val(calEvent.id_lessons);
             $('#txtTitulo').val(calEvent.title);
@@ -197,8 +200,6 @@ $group = findAllgroup();
             </button>
           </div>
           <div class="modal-body">
-
-
             <div class="col-md-12">
               <div class="card card-primary ">
                 <div class="card-header">
@@ -316,7 +317,6 @@ $group = findAllgroup();
           textColor: "#FFFFFF",
           end: $('#txtFecha').val() + " " + $('#txtHora').val(),
           teacher_lessons: $('#profesorselect').val(),
-
           namegroup_lessons: $('#gruposelect').val()
         };
       }

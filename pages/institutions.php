@@ -183,12 +183,10 @@ $institucion = findAllInstitutions();
 </body>
 <script>
   $(document).ready(function() {
-    console.log("ws");
 
     $("#departamentoadd").change(function() {
       $.get("../includes/sentences/get_municipality.php", "departamentoadd=" + $("#departamentoadd").val(), function(data) {
         $("#municipioadd").html(data);
-        console.log(data);
       });
     });
   

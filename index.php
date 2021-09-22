@@ -9,34 +9,40 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
   validate_fields($req_fields);
   $username = removeJunk($_POST['user']);
   $password = removeJunk($_POST['password']);
-
-  if (empty($errors)) {
-    $user_id = authenticate($username, $password);
-    if ($user_id) {
-      $session->login($user_id);
-      updateLastLogIn($user_id);
-      $user = current_user();
-      if ($user['tipo'] != "Docente") {
-        $session->msg("s", "Bienvenido  de nuevo " . $user['name'] );
-        header("Location: ./pages/dashboard");
+  $existUser = findUserId($username);
+  echo $existUser['total'];
+  if ($existUser['total'] >= 1) {
+    if (empty($errors)) {
+      $user_id = authenticate($username, $password);
+      if ($user_id) {
+        $session->login($user_id);
+        updateLastLogIn($user_id);
+        $user = current_user();
+        if ($user['tipo'] != "Docente") {
+          $session->msg("s", "Bienvenido  de nuevo " . $user['name']);
+          header("Location: ./pages/dashboard");
+        } else {
+          $session->msg("s", "Bienvenido  de nuevo " . $user['name']);
+          header("Location: ./pages/lessonsTeachers");
+        }
       } else {
-        $session->msg("s", "Bienvenido  de nuevo " . $user['name']);
-        header("Location: ./pages/lessonsTeachers");
+        $session->msg("d", "Nombre de usuario y/o contraseña incorrecto.");
+        header("Location: index");
       }
     } else {
-      $session->msg("d", "Nombre de usuario y/o contraseña incorrecto.");
+      $session->msg("d", $errors);
       header("Location: index");
     }
   } else {
-    $session->msg("d", $errors);
+    $session->msg("w", "El usuario ".$username." no se encuentra registrado.");
     header("Location: index");
   }
-} else {
-  //$session->msg("d", "Ha ocurrido un error, intentelo de nuevo.");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,7 +74,8 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         <p class="login-box-msg">Iniciar sesión</p>
         <form action="index" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="user" name="user" required placeholder="Usuario" title="Usuario">
+            <input type="text" class="form-control" id="user" name="user"           
+            required placeholder="Usuario" title="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -192,7 +199,6 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 
   <script>
     $(document).ready(function() {
-
       $('#exampleCheck1').click(function() {
         if ($('#exampleCheck1').is(':checked')) {
           $('#password').attr('type', 'text');

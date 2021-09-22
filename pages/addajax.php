@@ -407,6 +407,7 @@ $asistance = findAllasistance();
   </div>
   <!-- /.content-wrapper -->
 
+  
   <div class="modal fade" id="modal-lg">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -423,9 +424,7 @@ $asistance = findAllasistance();
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
 
 

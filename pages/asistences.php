@@ -72,7 +72,7 @@ $asistance = findAllasistance();
             <section class="content">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo displayMSG($msg); ?>                      
+                        <?php echo displayMSG($msg); ?>
                         <div class="card card-primary  collapsed-card">
                             <div class="card-header">
                                 <h3 class="card-title">Todas las asistencias</h3>
@@ -113,18 +113,12 @@ $asistance = findAllasistance();
                                                         <td class="text-center">
                                                             <a class="btn btn-success btn-sm btnVer" title="Ver Evidencia" href="javascript:window.open('evidence.php?evicencia=<?php echo $asistance['evidence_assistance'] ?>','','width=800,height=650,left=50,top=50,toolbar=yes');void 0">
                                                                 <i class="far fa-folder-open"></i> </a>
-                                                            <a class="btn btn-info btn-sm btnDetails" title="Ver Detalles" 
-                                                            data-id="<?php echo $asistance['id_assistance']; ?>" 
-                                                            data-fecha="<?php echo $asistance['date_assistance']; ?>" 
-                                                            data-horainicio="<?php echo $asistance['start_time_assistance']; ?>"
-                                                            data-horafinal="<?php echo $asistance['end_time_assistance']; ?>" 
-                                                            data-asignatura="<?php echo $asistance['name_subject']; ?>" 
-                                                            data-tiempototal="<?php echo $asistance['time_elapsed_assistance']; ?>" data-colegio="<?php echo $asistance['name_colleges']; ?>" data-profesor="<?php echo $asistance['teacher_lessons']; ?>" data-asignatura="<?php echo $asistance['name_subject']; ?>" data-material="<?php echo $asistance['socialized_material_assistance']; ?>" data-numeroasistentes="<?php echo $asistance['number_assistants']; ?>" data-ejetematico="<?php echo $asistance['main_theme_assistance']; ?>" data-clase="<?php echo $asistance['namegroup_lessons']; ?>" data-fechaclas="<?php echo $asistance['start']; ?>" data-evidencia="<?php echo $asistance['evidence_assistance']; ?>" data-observaciones="<?php echo $asistance['observations_assistance']; ?>" data-toggle="modal" data-target="#modal-xl">
+                                                            <a class="btn btn-info btn-sm btnDetails" title="Ver Detalles" data-id="<?php echo $asistance['id_assistance']; ?>" data-fecha="<?php echo $asistance['date_assistance']; ?>" data-horainicio="<?php echo $asistance['start_time_assistance']; ?>" data-horafinal="<?php echo $asistance['end_time_assistance']; ?>" data-asignatura="<?php echo $asistance['name_subject']; ?>" data-tiempototal="<?php echo $asistance['time_elapsed_assistance']; ?>" data-colegio="<?php echo $asistance['name_colleges']; ?>" data-profesor="<?php echo $asistance['teacher_lessons']; ?>" data-asignatura="<?php echo $asistance['name_subject']; ?>" data-material="<?php echo $asistance['socialized_material_assistance']; ?>" data-numeroasistentes="<?php echo $asistance['number_assistants']; ?>" data-ejetematico="<?php echo $asistance['main_theme_assistance']; ?>" data-clase="<?php echo $asistance['namegroup_lessons']; ?>" data-fechaclas="<?php echo $asistance['start']; ?>" data-evidencia="<?php echo $asistance['evidence_assistance']; ?>" data-observaciones="<?php echo $asistance['observations_assistance']; ?>" data-toggle="modal" data-target="#modal-xl">
                                                                 <i class="far fa-eye"></i> </a>
                                                             <?php if ($user['tipo'] == "Administrador") { ?>
                                                                 <a class="btn btn-primary btn-sm btnEditar" href="#">
                                                                     <i class="far fa-edit"></i> </a>
-                                                                <a class="btn btn-danger btn-sm btnEliminar" href="#">
+                                                                <a class="btn btn-danger btn-sm btnDelete" data-id="<?php echo $asistance['id_assistance']; ?>" data-clase="<?php echo $asistance['title']; ?>">
                                                                     <i class="far fa-trash-alt"></i> </a>
                                                             <?php } ?>
                                                         </td>
@@ -141,90 +135,90 @@ $asistance = findAllasistance();
                 </div>
         </div>
         <div class="modal fade bd-example-modal-lg" id="modal-xl">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Detalles de asistencia </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="card card card-light">
-              <div class="card-header">
-                <h3 class="card-title" id="dateDetails"></h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-calendar-alt"></i> Inicio / Final de clase</strong>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Detalles de asistencia </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card card card-light">
+                            <div class="card-header">
+                                <h3 class="card-title" id="dateDetails"></h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <strong><i class="fas fa-calendar-alt"></i> Inicio / Final de clase</strong>
 
-                <p class="text-muted" id="startendclass">
+                                <p class="text-muted" id="startendclass">
 
-                </p>
+                                </p>
 
-                <hr>
+                                <hr>
 
-                <strong><i class="fas fa-clock"></i> Duracion de la clase</strong>
+                                <strong><i class="fas fa-clock"></i> Duracion de la clase</strong>
 
-                <p class="text-muted" id="durationclass"></p>
+                                <p class="text-muted" id="durationclass"></p>
 
-                <hr>
+                                <hr>
 
-                <strong><i class="fas fa-chalkboard-teacher"></i> Profesor</strong>
+                                <strong><i class="fas fa-chalkboard-teacher"></i> Profesor</strong>
 
-                <p class="text-muted" id="teacherclass"></p>
+                                <p class="text-muted" id="teacherclass"></p>
 
-                <hr>
+                                <hr>
 
-                <strong><i class="fas fa-chalkboard-teacher"></i> Asignatura</strong>
+                                <strong><i class="fas fa-chalkboard-teacher"></i> Asignatura</strong>
 
-                <p class="text-muted" id="subjetclass"></p>
+                                <p class="text-muted" id="subjetclass"></p>
 
-                <hr>
-                <strong><i class="fas fa-school"></i> Institución</strong>
+                                <hr>
+                                <strong><i class="fas fa-school"></i> Institución</strong>
 
-                <p class="text-muted" id="collageclass"></p>
+                                <p class="text-muted" id="collageclass"></p>
 
-                <hr>
+                                <hr>
 
-                <strong><i class="fas fa-file-signature"></i> Material de la clase</strong>
+                                <strong><i class="fas fa-file-signature"></i> Material de la clase</strong>
 
-                <p class="text-muted" id="materialclass"></p>
+                                <p class="text-muted" id="materialclass"></p>
 
-                <hr>
+                                <hr>
 
-                <strong><i class="fas fa-book-reader"></i> Eje temático </strong>
+                                <strong><i class="fas fa-book-reader"></i> Eje temático </strong>
 
-                <p class="text-muted" id="ejetematicoclass"></p>
+                                <p class="text-muted" id="ejetematicoclass"></p>
 
-                <hr>
-                <strong><i class="fas fa-users"></i> Clase</strong>
+                                <hr>
+                                <strong><i class="fas fa-users"></i> Clase</strong>
 
-                <p class="text-muted" id="class"></p>
+                                <p class="text-muted" id="class"></p>
 
-                <hr>
-                <strong><i class="fas fa-sort-numeric-up"></i> Numero de asistentes</strong>
+                                <hr>
+                                <strong><i class="fas fa-sort-numeric-up"></i> Numero de asistentes</strong>
 
-                <p class="text-muted" id="numberclass"></p>
+                                <p class="text-muted" id="numberclass"></p>
 
-                <hr>
-                <strong><i class="far fa-file-alt mr-1"></i> Notas</strong>
+                                <hr>
+                                <strong><i class="far fa-file-alt mr-1"></i> Notas</strong>
 
-                <p class="text-muted" id="observationclass"></p>
-              </div>
-              <!-- /.card-body -->
+                                <p class="text-muted" id="observationclass"></p>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+                <!-- /.modal-content -->
             </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-          </div>
+            <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-     
+
         <?php include('../layout/footer.php'); ?>
 </body>
 
@@ -242,40 +236,77 @@ $asistance = findAllasistance();
 </script>
 
 <script>
- 
-  $(document).ready(function() {
-    //Confirmar
-    $(".btnDetails").click(function() {
+    $(document).ready(function() {
+        //Confirmar
+        $(".btnDetails").click(function() {
 
-      var id = $(this).data('id');
+            var id = $(this).data('id');
 
-      var fecha = $(this).data('fecha');
-      var horainicio = $(this).data('horainicio');
-      var horafinal = $(this).data('horafinal');
-      var duracion = $(this).data('tiempototal');
-      var profesor = $(this).data('profesor');
-      var colegio = $(this).data('colegio');
-      var materialsocializado = $(this).data('material');
-      var ejetematico = $(this).data('ejetematico');
-      var clase = $(this).data('clase');
-      var fechaclas = $(this).data('fechaclas');
-      var numeroasistente = $(this).data('numeroasistentes');
-      var observaciones = $(this).data('observaciones');
-      var numeroestudiantes = $(this).data('numeroestudiantes');
-      var asignatura = $(this).data('asignatura')
-      $("#dateDetails").text("  " + fecha);
-      $("#startendclass").text(horainicio + " / " + horafinal);
-      $("#durationclass").text(duracion + " Horas");
-      $("#teacherclass").text("  " + profesor);
-      $("#collageclass").text("  " + colegio);
-      $("#subjetclass").text("  " + asignatura);
-      $("#materialclass").text("  " + materialsocializado);
-      $("#ejetematicoclass").text("  " + ejetematico);
-      $("#class").text("  " + clase + " / " + fechaclas);
-      $("#numberclass").text("  " + numeroasistente + " Estudiantes");
-      $("#observationclass").text("  " + observaciones);
+            var fecha = $(this).data('fecha');
+            var horainicio = $(this).data('horainicio');
+            var horafinal = $(this).data('horafinal');
+            var duracion = $(this).data('tiempototal');
+            var profesor = $(this).data('profesor');
+            var colegio = $(this).data('colegio');
+            var materialsocializado = $(this).data('material');
+            var ejetematico = $(this).data('ejetematico');
+            var clase = $(this).data('clase');
+            var fechaclas = $(this).data('fechaclas');
+            var numeroasistente = $(this).data('numeroasistentes');
+            var observaciones = $(this).data('observaciones');
+            var numeroestudiantes = $(this).data('numeroestudiantes');
+            var asignatura = $(this).data('asignatura')
+            $("#dateDetails").text("  " + fecha);
+            $("#startendclass").text(horainicio + " / " + horafinal);
+            $("#durationclass").text(duracion + " Horas");
+            $("#teacherclass").text("  " + profesor);
+            $("#collageclass").text("  " + colegio);
+            $("#subjetclass").text("  " + asignatura);
+            $("#materialclass").text("  " + materialsocializado);
+            $("#ejetematicoclass").text("  " + ejetematico);
+            $("#class").text("  " + clase + " / " + fechaclas);
+            $("#numberclass").text("  " + numeroasistente + " Estudiantes");
+            $("#observationclass").text("  " + observaciones);
+        });
+        $(".btnDelete").click(function() {
+            var id = $(this).data('id');
+            var clase = $(this).data('clase');
+            fila = $(this).parent('td').parent('tr');
+            eliminar(id, clase, fila);
+        });
     });
-  });
+</script>
+<script>
+    function eliminar($id, $clase, $fila) {
+        Swal.fire({
+            title: 'Desea Eliminar esta asistencia?' + $clase,
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Eliminar`,
+            denyButtonText: `No eliminar, cancelar`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../includes/sentences/delete_asistences.php',
+                    data: {
+                        id: $id
+                    },
+                    success: function(msg) {
+                        Swal.fire('Asistencia eliminada!', '', 'success')
+                        $($fila).fadeOut(1000);
+                    },
+                    error: function() {
+                        Swal.fire('Changes are not saved', '', 'error')
+                    }
+                });
+            } else if (result.isDenied) {
+                Swal.fire('Asistencia no eliminada', '', 'info')
+            }
+        })
+    }
 </script>
 
 </html>

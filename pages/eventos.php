@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 $pdo = new PDO("mysql:dbname=coordinacion;host=localhost", "root", "");
-//W$pdo = new PDO("mysql:dbname=grupogea_coordinacion;host=localhost", "grupogea_coordinacion", "coordinacion");
+//W$pdo = new PDO("mysql:dbname=grupogea_+coordinacion;host=localhost", "grupogea_coordinacion", "coordinacion");
 $accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'leer';
 switch ($accion) {
     case 'agregar':
